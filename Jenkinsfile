@@ -7,5 +7,13 @@ pipeline {
       }
     }
 
+    stage('frontend build') {
+      steps {
+        sh '''npm install 
+npm run dev 
+'''
+      }
+    }
+
   }
 }
