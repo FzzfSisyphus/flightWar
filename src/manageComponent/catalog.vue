@@ -1,18 +1,27 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import manageAPI from './services/manageAPI'
+import manageAPI from '../services/manageAPI'
 import router from "@/router";
 
 let equipments = ref(['', ''])
 let modifyequipment = ref(false)
 let status = ref('')
-let itemId = ref('')
+let itemId = ref(null)
 let itemName = ref('')
 let describe = ref('')
 let price = ref(0)
 let picPath = ref('')
-
 let userid = ref(router.currentRoute.value.params.userid)
+let data = ref({
+  status,
+  itemId,
+  itemName,
+  describe,
+  price,
+  picPath,
+  userid
+})
+
 
 onMounted(() => {
   load();
@@ -38,23 +47,36 @@ const load = async () => {
   }
 }
 
-const newDiffLV = async () => {
-  let data;
-  data = {
-    status,
-    itemId,
-    itemName,
-    describe,
-    price,
-    picPath,
-    userid
-  }
+const newEquipment = async () => {
   try {
     const response = await manageAPI.modifyEquipment(data)
+    console.log(response.status)
+    modifyequipment.value = false
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteEquipment = async (id) => {
+  try {
+    const response = await manageAPI.deleteEquipment(id)
     console.log(response.status)
   } catch (error) {
     console.log(error)
   }
+}
+
+function changeEquipment(id) {
+  modifyequipment.value = true
+  itemName.value = equipments.value[id].itemName
+  describe.value = equipments.value[id].describe
+  price.value = equipments.value[id].price
+  picPath.value = equipments.value[id].picPath
+}
+
+function addEquipment() {
+  modifyequipment.value = true
+  status.value = 'add'
 }
 
 </script>
@@ -62,46 +84,45 @@ const newDiffLV = async () => {
 <template>
   <div v-if="modifyequipment" class="overlay">
     <div class="backfont">
+      <dev v-if="status == 'add'">
+        <input type="radio" v-model="status" value="change"/><label>change</label>
+        <input type="radio" v-model="status" value="delete"/><label>delete</label>
+      </dev>
       <h3>Put the information of the product</h3>
       <br>
-      <p>picture: </p>
-      <textarea v-model="pic_path" placeholder="Enter picture path">picture:</textarea>
+      <p>itemName: </p>
+      <textarea v-model="itemName"></textarea>
       <br>
       <p>describe:</p>
-      <textarea v-model="describe" placeholder="Food describe"></textarea>
+      <textarea v-model="describe"></textarea>
       <br>
       <p>price:</p>
-      <textarea v-model="price" placeholder="Enter price"></textarea>
+      <textarea v-model="price"></textarea>
       <br>
-      <p>quantity:</p>
-      <textarea v-model="quantity" placeholder="quantity"></textarea>
-      <br>
-      <p>expireTime: </p>
-      <textarea v-model="expireTime" placeholder="yyyymmdd"> </textarea>
+      <p>picPath:</p>
+      <textarea v-model="picPath"></textarea>
     </div>
-    <button @click="newProduct">confirm</button>
-    <button @click="closeOverlay">close</button>
+    <button @click="newEquipment">confirm</button>
+    <button @click="modifyequipment=false">close</button>
   </div>
   <!--every time add/delete one product, we flash the page to get the new product list-->
 
   <div>
     <h2>Manage your store!</h2>
 
-    <button @click="add=true">Add a new product</button>
+    <button @click="addEquipment">Add a new product</button>
 
     <h3>Your products:</h3>
-
-    <div v-if="productNumber == 0">
-      <h4>Seems you don't have any product...</h4>
-      <h4>Create your first by click the right top button!</h4>
-    </div>
-    <div v-else class="productContainer">
+    <div class="productContainer">
       <!--      for the card in the equipments     -->
-      <div v-for="product in products">
-        <p class="product" :id="product.productId">
-          <img class="img" :src="product.picPath">
-          <p>{{ product.describe }}</p>
-          <button @click="deleteProduct(product.productId)">delete</button>
+      <div v-for="equipment in equipments">
+        <p class="product" :id="equipment.itemId">
+          <img class="img" :src="equipment.picPath">
+          <p>{{ equipment.itemName }}</p>
+          <p>{{ equipment.describe }}</p>
+          <p>{{ equipment.price }}</p>
+          <button @click="changeEquipment(equipments.valueOf(equipment))">delete</button>
+          <button @click="deleteEquipment(equipments.itemId)">delete</button>
         </p>
       </div>
     </div>

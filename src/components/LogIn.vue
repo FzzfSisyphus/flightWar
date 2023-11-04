@@ -21,7 +21,7 @@ function log() {
       console.log("ok");
       userid.value = response.data.userId;
       if (response.data.roleType) {
-        router.push(`/CatalogAdmin`);
+        router.push(`/Manage/${userid.value}`);
       } else {
         router.push(`/ModeChoose/${userid.value}`);
       }

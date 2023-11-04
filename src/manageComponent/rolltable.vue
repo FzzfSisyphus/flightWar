@@ -1,6 +1,6 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import manageAPI from './services/manageAPI'
+import manageAPI from '../services/manageAPI'
 import router from "@/router";
 
 let rolltableprize = ref(['', ''])
@@ -12,6 +12,13 @@ let weight = ref('')
 
 let index = ref(0)
 let userid = ref(router.currentRoute.value.params.userid)
+
+let data = ref({
+  status,
+  prizeName,
+  picPath,
+  weight
+})
 
 onMounted(() => {
   load();
@@ -36,16 +43,10 @@ const load = async () => {
 }
 
 const newPrize = async () => {
-  let data;
-  data = {
-    status,
-    prizeName,
-    picPath,
-    weight
-  }
   try {
     const response = await manageAPI.modifyRolltablePrize(data)
     console.log(response.status)
+    modifyrolltableprize.value = false
   } catch (error) {
     console.log(error)
   }
@@ -54,37 +55,44 @@ const newPrize = async () => {
 function modify(id) {
   index.value = id
   modifyrolltableprize.value = true
+  prizeName.value = rolltableprize.value[id].prizeName
+  picPath.value = rolltableprize.value[id].picPath
+  weight.value = rolltableprize.value[id].weight
+}
+
+function addPrize() {
+  modifyrolltableprize.value = true
+  status.value = 'add'
 }
 
 </script>
 
 <template>
   <div v-if="modifyrolltableprize" class="overlay">
+    <!--  change or delete prize  -->
     <div class="backfont">
-      <input type="radio" v-model="status" value="add"/><label>add</label>
-      <input type="radio" v-model="status" value="change"/><label>change</label>
-      <input type="radio" v-model="status" value="delete"/><label>delete</label>
+      <dev v-if="status == 'add'">
+        <input type="radio" v-model="status" value="change"/><label>change</label>
+        <input type="radio" v-model="status" value="delete"/><label>delete</label>
+      </dev>
       <h3>Put the information of the prize</h3>
       <br>
       <p>picture: </p>
-      <textarea v-model="picPath" placeholder="Enter picture path">
-      </textarea>
+      <textarea v-model="picPath"></textarea>
       <br>
       <p>prize name:</p>
-      <textarea v-model="prizeName" placeholder="prize name">
-      </textarea>
+      <textarea v-model="prizeName"></textarea>
       <br>
       <p>weight:</p>
-      <textarea v-model="weight" placeholder="Enter weight">
-      </textarea>
+      <textarea v-model="weight"></textarea>
+      <button @click="newPrize">confirm</button>
+      <button @click="modifyrolltableprize=false">close</button>
     </div>
-    <button @click="newPrize">confirm</button>
-    <button @click="modifyrolltableprize=false">close</button>
+    <!--every time add/delete one product, we flash the page to get the new product list-->
   </div>
-  <!--every time add/delete one product, we flash the page to get the new product list-->
 
   <div>
-    <button @click="modifyrolltableprize=true">Add a new Prize</button>
+    <button @click="addPrize">Add a new Prize</button>
 
     <h3>Prizes Now:</h3>
     <div class="productContainer">
@@ -94,10 +102,10 @@ function modify(id) {
           <img class="img" :src="prize.picPath">
           <p>{{ prize.prizeName }}</p>
           <p>{{ prize.weight }}</p>
+          <button @click="modify(rolltableprize.indexOf(prize))">modify</button>
         </p>
       </div>
     </div>
-    <button @click="modify()">modify</button>
   </div>
 </template>
 

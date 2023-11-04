@@ -1,6 +1,6 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import manageAPI from './services/manageAPI'
+import manageAPI from '../services/manageAPI'
 import router from "@/router";
 
 let diffLVArray = ref(['', ''])
@@ -9,6 +9,12 @@ let status = ref('')
 let diffLV = ref(0)
 let awardDensity = ref(0)
 let enemyDensity = ref(0)
+let data = ref({
+  status,
+  diffLV,
+  awardDensity,
+  enemyDensity
+})
 
 let userid = ref(router.currentRoute.value.params.userid)
 
@@ -35,19 +41,25 @@ const load = async () => {
 }
 
 const newDiffLV = async () => {
-  let data;
-  data = {
-    status,
-    diffLV,
-    awardDensity,
-    enemyDensity
-  }
   try {
     const response = await manageAPI.modifyDiffLV(data)
     console.log(response.status)
+    modifydiffLV.value = false
   } catch (error) {
     console.log(error)
   }
+}
+
+function modify(id) {
+  modifydiffLV.value = true
+  diffLV.value = diffLVArray.value[id].diffLV
+  awardDensity.value = diffLVArray.value[id].awardDensity
+  enemyDensity.value = diffLVArray.value[id].enemyDensity
+}
+
+function addDiffLV() {
+  modifydiffLV.value = true
+  status.value = 'add'
 }
 
 </script>
@@ -55,56 +67,44 @@ const newDiffLV = async () => {
 <template>
   <div v-if="modifydiffLV" class="overlay">
     <div class="backfont">
+      <dev v-if="status == 'add'">
+        <input type="radio" v-model="status" value="change"/><label>change</label>
+        <input type="radio" v-model="status" value="delete"/><label>delete</label>
+      </dev>
       <h3>Put the information of the product</h3>
       <br>
-      <p>picture: </p>
-      <textarea v-model="pic_path" placeholder="Enter picture path">picture:</textarea>
+      <p>diffLV: </p>
+      <textarea v-model="diffLV"></textarea>
       <br>
-      <p>describe:</p>
-      <textarea v-model="describe" placeholder="Food describe"></textarea>
+      <p>awardDensity:</p>
+      <textarea v-model="awardDensity"></textarea>
       <br>
-      <p>price:</p>
-      <textarea v-model="price" placeholder="Enter price"></textarea>
-      <br>
-      <p>quantity:</p>
-      <textarea v-model="quantity" placeholder="quantity"></textarea>
-      <br>
-      <p>expireTime: </p>
-      <textarea v-model="expireTime" placeholder="yyyymmdd"> </textarea>
+      <p>enemyDensity:</p>
+      <textarea v-model="enemyDensity"></textarea>
+      <button @click="newDiffLV">confirm</button>
+      <button @click="modifydiffLV=false">close</button>
     </div>
-    <button @click="newProduct">confirm</button>
-    <button @click="closeOverlay">close</button>
+
   </div>
   <!--every time add/delete one product, we flash the page to get the new product list-->
 
   <div>
     <h2>Manage your store!</h2>
 
-    <button @click="modifydiffLV=true">Add a new product</button>
+    <button @click="addDiffLV=true">Add a new product</button>
 
     <h3>Your products:</h3>
-
-    <div v-if="productNumber == 0">
-      <h4>Seems you don't have any product...</h4>
-      <h4>Create your first by click the right top button!</h4>
-    </div>
-    <div v-else>
-      <div class="productContainer">
-        <!--      for the card in the equipments     -->
-        <div v-for="product in products">
-          <p class="product" :id="product.productId">
-            <img class="img" :src="product.picPath">
-            <p>{{ product.describe }}</p>
-            <button @click="deleteProduct(product.productId)">delete</button>
-          </p>
-        </div>
+    <div class="productContainer">
+      <!--      for the card in the equipments     -->
+      <div v-for="LV in diffLVArray">
+        <p class="product" :id="diffLVArray.indexOf(LV)">
+          <p>{{ LV.diffLV }}</p>
+          <p>{{ LV.awardDensity }}</p>
+          <p>{{ LV.enemyDensity }}</p>
+          <button @click="modify(diffLVArray.indexOf(LV))">modify</button>
+        </p>
       </div>
     </div>
-
-    <button @click="previous_page">previous</button>
-    <text>{{ page }}</text>
-    <button @click="next_page">next</button>
-
   </div>
 </template>
 
