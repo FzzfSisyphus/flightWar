@@ -1,7 +1,7 @@
 <script setup>
 import {ref} from "vue";
 import router from "@/router";
-import axios from "axios";
+import accountAPI from "../services/accountAPI"
 
 let Username = ref('')
 let Password = ref('')
@@ -15,25 +15,21 @@ function log() {
   if (Username.value == '' & Password.value == '') {
     emptyerrorMessage.value = 'Please input the username and password'
   } else {
-    axios.post('https://jsonplaceholder.typicode.com/posts/1', {
-      userName: Username.value,
-      password: Password.value,
-    })
-        .then(function (response) {
-          console.log(response);
-          console.log("ok");
-          userid.value = response.data.userId;
-          if (response.data.roleType) {
-            router.push(`/CatalogAdmin`);
-          } else {
-            router.push(`/ModeChoose/${userid.value}`);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-          console.log("error");
-          verifyerrorMessage.value = "Sorry! The username and the password don't match!";
-        })
+    try {
+      const response = accountAPI.login(Username.value, Password.value)
+      console.log(response);
+      console.log("ok");
+      userid.value = response.data.userId;
+      if (response.data.roleType) {
+        router.push(`/CatalogAdmin`);
+      } else {
+        router.push(`/ModeChoose/${userid.value}`);
+      }
+    } catch (error) {
+      console.log(error);
+      console.log("error");
+      verifyerrorMessage.value = "Sorry! The username and the password don't match!";
+    }
   }
   // router.push(`/ModeChoose/${userid.value}`)
   //http://localhost:5173/#/ModeChoose?username=Username https://jsonplaceholder.typicode.com/posts/1
@@ -68,7 +64,9 @@ function log() {
   background: #accbea;
   color: #2c3e50;
   border: 1px solid transparent;
-  border: 1px solid #164bde; padding: 0 10px; margin: 2px;
+  border: 1px solid #164bde;
+  padding: 0 10px;
+  margin: 2px;
 }
 </style>
 

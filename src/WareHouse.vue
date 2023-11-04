@@ -1,7 +1,8 @@
 <script setup>
 import {ref} from 'vue'
 import RollTable from './components/RollTable.vue';
-import axios from 'axios'
+import warehouseAPI from './services/warehouseAPI'
+
 let userId = ref(0)
 let equipments = ref([])
 let coupons = ref(-1)
@@ -10,11 +11,8 @@ let credits = ref(0)
 
 let startroll = ref(false)
 
-axios.get('http://localhost:5173/#/ModeChoose?username=Username', {
-  params: {
-    userId: userId.value,
-  }
-}).then(function (response) {
+try {
+  const response = warehouseAPI.getWarehouse(userId.value)
   coupons.value = response.data.coupons;
   credit.value = response.data.credit;
   let equipt;
@@ -28,7 +26,9 @@ axios.get('http://localhost:5173/#/ModeChoose?username=Username', {
       picPath: equipt.picPath
     });
   }
-}).catch(error => console.log(error))
+} catch (error) {
+  console.log(error)
+}
 
 function getRandomColor() {
   return "hsl(" + Math.random() * 360 + "), 100%, 75%";
@@ -51,8 +51,8 @@ function turntable() {
 
 <template>
   <div v-if="startroll" class="overlay">
-    <RollTable
-      :prizeList="[
+    <RollTable :userId='userId'
+               :prizeList="[
         { name: '手机', src: 'https://www.apple.com/newsroom/images/product/iphone/geo/Apple-iPhone-14-iPhone-14-Plus-hero-220907-geo.jpg.og.jpg?202308290218' },
         { name: '手表', src: 'https://img1.baidu.com/it/u=2631716577,1296460670&fm=253&fmt=auto&app=120&f=JPEG' },
         { name: '苹果', src: 'https://img2.baidu.com/it/u=2611478896,137965957&fm=253&fmt=auto&app=138&f=JPEG' },
@@ -66,7 +66,7 @@ function turntable() {
     <button @click="startroll=false">close</button>
 
   </div>
-  
+
   <div>
     <h1>Hi! Welcome to your warehouse!</h1>
 
@@ -112,9 +112,11 @@ function turntable() {
 }
 
 .equipmentContainer {
-  max-width: 1000px; 
-  padding: 10px; 
-  margin: 0 auto; display: flex; flex-wrap: wrap;
+  max-width: 1000px;
+  padding: 10px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .equipment {

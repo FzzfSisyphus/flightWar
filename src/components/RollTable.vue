@@ -13,9 +13,12 @@
 </template>
 
 <script>
+import rolltableAPI from '../services/warehouseAPI.js'
+
 export default {
   props: {
-    prizeList: Array
+    prizeList: Array,
+    userId: Number
   },
 
   data() {
@@ -34,7 +37,7 @@ export default {
         {
           radius: '60px',
           background: '#fff',
-          fonts: [{text: 'start',fontSize: '40px', top: '-25px'}]
+          fonts: [{text: 'start', fontSize: '40px', top: '-25px'}]
         }
       ],
     }
@@ -43,16 +46,37 @@ export default {
     this.getPrizesList()
   },
   methods: {
+    // getPrizesList() {
+    //   const prizes = []
+    //   let data = this.prizeList
+    //   data.forEach((item, index) => {
+    //     prizes.push({
+    //       title: item.name,
+    //       background: index % 2 ? '#f9e3bb' : '#f8d384',
+    //       fonts: [{text: item.name, top: '10%',fontSize: '20px'}],
+    //       imgs: [{ src: item.src, width: '45%', top: '20%' }],
+    //     })
+    //   })
+    //   this.prizes = prizes
+    // },
     getPrizesList() {
       const prizes = []
-      let data = this.prizeList
+      let data;
+      try {
+        data = rolltableAPI.getPrize().data()
+      } catch (error) {
+        console.log("error")
+      }
       data.forEach((item, index) => {
-        prizes.push({
-          title: item.name,
-          background: index % 2 ? '#f9e3bb' : '#f8d384',
-          fonts: [{text: item.name, top: '10%',fontSize: '20px'}],
-          imgs: [{ src: item.src, width: '45%', top: '20%' }],
-        })
+        var i;
+        for (i = 0; i < item.weight; i++) {
+          prizes.push({
+            title: item.itemName,
+            background: index % 2 ? '#f9e3bb' : '#f8d384',
+            fonts: [{text: item.itemName, top: '10%', fontSize: '20px'}],
+            imgs: [{src: item.picPath, width: '45%', top: '20%'}],
+          })
+        }
       })
       this.prizes = prizes
     },
@@ -65,6 +89,11 @@ export default {
     endCallBack(prize) {
       // alert(`恭喜你获得${prize.title}`)
       console.log(prize.title, prize.index)
+      try{
+        const response = rolltableAPI.winPrize(userId)
+      }catch (error){
+        console.log(error)
+      }
     },
   }
 }

@@ -1,15 +1,15 @@
 import API from "./API";
 class gameAPI{
     static getEquip(useridValue){
-        return API().get('/game/equip',{ 
-            params:{userId: useridValue }          
+        return API().get('/game/equip/'+useridValue,{
+            params: {
+              userId: useridValue
+            }
           })
     }
 
-   
-
     static postEquip(userId,equipList){
-        return API().post('/game/equip',
+        return API().post('/game/equip/',
         {
             userId: userId,
             itemId: equipList
@@ -25,7 +25,7 @@ class gameAPI{
     }
 
     static  getDiff(){
-        return API().get('/game/diff')
+        return API('http://localhost:9090/game/diff').get()
     }
 
     static createPost(data){

@@ -47,9 +47,6 @@ export default{
     
     const loadEquipment  = async() => {
       try{
-        console.log("userId: ")
-        console.log(userId)
-
         const response = await gameAPI.getEquip(userId)
         responseData.value = response.data
       } catch(err){
@@ -111,16 +108,18 @@ export default{
   width: 80%;
   background: #4df719;
   align-items: center;
-  text-align: center;
-  display: flex;
 }
-.linkbtn{
-  height: 100%;
-  width: 100%;
-  left: 50%;
+.linkBtn{
+  width: 80%;
+  position: absolute;
+  left: 40%;
+  line-height: 36px;
   font-weight: bold;
   font-size: 40px;
   color: #2c3e50;
+  border: 1px solid transparent;
+  padding: 0 10px;
+  margin: 20px;
 }
 
 </style>
