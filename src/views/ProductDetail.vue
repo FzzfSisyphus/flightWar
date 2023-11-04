@@ -11,8 +11,9 @@
       <img :src="selectedProduct.thumbnail" alt="">
     </div>
     <div class="product-details">
-      <p>Brand: {{ selectedProduct.brand }}</p>
-      <p>stock: {{ selectedProduct.stock}}</p>
+      
+      <p>itemName: {{ selectedProduct.itemName}}</p>
+      <p>Description: {{ selectedProduct.describe }}</p>
       <h2>Price: ${{ selectedProduct.price }}</h2>
       <!-- <v-btn
         variant="elevated"
@@ -41,15 +42,15 @@
               ref="updateForm"
           >
             <el-form-item
-                label="Stock"
+                label="itemName"
                 label-width="80px"
-                prop="stock"
+                prop="itemName"
             >
               <el-input
-                  type="number"
-                  v-model="updateForm.stock"
+                  type="text"
+                  v-model="updateForm.itemName"
                   class="border"
-                  placeholder="You can only enter number"
+                  placeholder="Add description"
               />
             </el-form-item>
             <el-form-item
@@ -66,11 +67,23 @@
 
               />
             </el-form-item>
+              <el-form-item
+                label="Description"
+                label-width="80px"
+                prop="describe"
+            >
+              <el-input
+                  type="text"
+                  v-model="updateForm.describe"
+                  class="border"
+                  placeholder="Add descriprion"
+              />
+            </el-form-item>
             <el-form-item>
               <el-button
                   type="primary"
                   @click="submitForm('updateForm')"
-              >提交</el-button
+              >Submit</el-button
               >
             </el-form-item>
           </el-form>
@@ -93,15 +106,15 @@ const goToAdminPage= () => {
 const selectedProduct = computed(() => {
   return store.products.find((item) => item.id === Number(route.params.id))
 })
-const addToCart = () => {
-  //if 语句stock>0
-  if(selectedProduct.value.stock>0)
-  { store.addToCart(selectedProduct.value)
-    selectedProduct.value.stock--
-    router.push({ name: 'CartView' }) }
-  else
-    alert("No stock now!")
-}
+// const addToCart = () => {
+//   //if 语句itemName>0
+//   if(selectedProduct.value.itemName>0)
+//   { store.addToCart(selectedProduct.value)
+//     selectedProduct.value.itemName--
+//     router.push({ name: 'CartView' }) }
+//   else
+//     alert("No itemName now!")
+// }
 
 </script>
 
@@ -131,8 +144,9 @@ export default {
 
   },
   mounted(){
-    this.updateForm.stock=this.selectedProduct.stock
-    this.updateForm.price=this.selectedProduct.price
+    this.updateForm.itemName=this.selectedProduct.itemName
+    this.updateForm.price=this.selectedProduct.price// get data
+    this.updateForm.describe=this.selectedProduct.describe
   },
   data() {
 
@@ -158,7 +172,7 @@ export default {
 
       if (value==="") {
 
-        callback(new Error("Please enter stock"));
+        callback(new Error("Please enter itemName"));
       }
       else {
         callback();
@@ -181,24 +195,24 @@ export default {
     return {
       currentIndex: "update",
       updateForm: {
-        stock: "",
+        itemName: "",
         price: "",
       },
-      registerForm: {
-        stock: "",
-        price: "",
-        configurePassword: "",
-        email: "",
-      },
+      // registerForm: {
+      //   itemName: "",
+      //   price: "",
+      //   configurePassword: "",
+      //   email: "",
+      // },
       activeTab: "update",
       selectedProduct,
       rules: {
-        stock: [
+        itemName: [
           {
             validator: validateUserName,
             trigger: "blur",
             required: true,
-            message: 'Please enter stock'
+            message: 'Please enter itemName'
 
           },
         ],
@@ -218,17 +232,66 @@ export default {
   methods: {
 
     ...mapMutations("update", ["setUser"]),
+    // submitForm(formName) {
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       if (this.activeTab === "update") {
+    //         // 登陆
+    //         console.log("111111111111111111"+this.updateForm.itemName)
+    //         this.selectedProduct.itemName=this.updateForm.itemName
+    //         this.selectedProduct.price=this.updateForm.price// update form
+    //this.selectedProduct.describe=this.updateForm.describe
+    //         let product={
+    //   "id": this.selectedProduct.id,
+    //   "itemName": "ADD",
+    //   "describe": "",
+    //   "price": this.selectedProduct.price,
+    //   "picPath": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
+    //    "status":"update"
+    //  }
+
+    //         axios.put('https://products/manage/catalog', product).then(
+    //     (res) => {
+            
+    //     }
+    // )
+    //         console.log("22222222"+this.selectedProduct.itemName)
+    //         this.updateForm.itemName=""
+    //         this.updateForm.price=""//clean form
+    //       }
+
+    //     } else {
+    //       return;
+    //     }
+    //   });
+    // },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.activeTab === "update") {
             // 登陆
-            console.log("111111111111111111"+this.updateForm.stock)
-            this.selectedProduct.stock=this.updateForm.stock
-            this.selectedProduct.price=this.updateForm.price
-            console.log("22222222"+this.selectedProduct.stock)
-            this.updateForm.stock=""
-            this.updateForm.price=""
+            console.log("111111111111111111"+this.updateForm.itemName)
+            this.selectedProduct.itemName=this.updateForm.itemName
+            this.selectedProduct.price=this.updateForm.price// update form
+            this.selectedProduct.describe=this.updateForm.describe// update form
+            //let product={
+           //   "id": this.selectedProduct.id,
+          //   "itemName": this.selectedProduct.itemName,
+           //   "describe": this.selectedProduct.describe,
+         //   "price": this.selectedProduct.price,
+        //   "picPath": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
+       //    "status":"update"
+       //  }        
+    //         axios.put('https://products/manage/catalog', product).then(
+    //     (res) => {
+            
+    //     }
+    // )
+
+            console.log("22222222"+this.selectedProduct.itemName)
+            this.updateForm.itemName=""
+            this.updateForm.price=""//clean form
+            this.updateForm.describe=""
           }
 
         } else {
@@ -250,6 +313,18 @@ export default {
 </script>
 
 <style scoped lang="less">
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
 .product {
   display: flex;
   margin-top: 50px;

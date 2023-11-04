@@ -1,14 +1,16 @@
 <template>
-  <div class="products-list">
-    <v-text-field clearable label="Label" prepend-icon="$vuetify"></v-text-field>
+  <div >
+    <v-text-field clearable label="Label" prepend-icon="$vuetify" ></v-text-field>
     <v-row no-gutters>
       <v-col
           v-for="product in store.products"
           :key="product.id"
           cols="12"
           sm="4"
+          class="card"
       >
         <product-item
+        
             :product-data="product"
             @item-clicked="goToProductPage"
             @click="goToProductPage(product.id)"
@@ -65,6 +67,20 @@
 
  const removeFromProduct = (id) => {
     store.removeFromProduct(id)
+    // let data = {
+    //             id:id
+    //         }
+    //         //url传递参数
+    //         axios.delete('接口地址', {
+    //             parmas:{
+    //                 id:id
+    //             }
+    //         }).then(
+    //             (res) => {
+    //                 //执行成功后代码处理
+    //             }
+    //         )
+
   }
 
 //  const addProduct = (id) => {
@@ -75,6 +91,7 @@
     store.addProduct()
     // goToProductPage(store.products.length)
     //goToProductPage(store.size)
+    
 
   }
 
@@ -84,5 +101,20 @@
 </script>
 
 <style scoped>
+* {
+    margin: 0;
+    padding: 0;
+}
 
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+}
+.card{
+ 
+    margin: 20px;
+    padding: 16px;
+    width: 40px;
+}
 </style>
