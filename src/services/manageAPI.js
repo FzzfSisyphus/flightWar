@@ -38,7 +38,8 @@ class manageAPI {
             itemName: data.itemName,
             describe: data.describe,
             price: data.price,
-            picPath: data.picPath
+            picPath: data.picPath,
+            operatorId: data.userid
         })
     }
 

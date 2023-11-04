@@ -1,6 +1,7 @@
 <script setup>
-import {ref,onMounted} from 'vue'
+import {ref, onMounted} from 'vue'
 import manageAPI from './services/manageAPI'
+import router from "@/router";
 
 let equipments = ref(['', ''])
 let modifyequipment = ref(false)
@@ -11,10 +12,12 @@ let describe = ref('')
 let price = ref(0)
 let picPath = ref('')
 
+let userid = ref(router.currentRoute.value.params.userid)
+
 onMounted(() => {
   load();
 });
-const load = async() => {
+const load = async () => {
   try {
     const response = await manageAPI.getDiffLV()
     console.log(response)
@@ -35,10 +38,29 @@ const load = async() => {
   }
 }
 
+const newDiffLV = async () => {
+  let data;
+  data = {
+    status,
+    itemId,
+    itemName,
+    describe,
+    price,
+    picPath,
+    userid
+  }
+  try {
+    const response = await manageAPI.modifyEquipment(data)
+    console.log(response.status)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 </script>
 
 <template>
-  <div v-if="add" class="overlay">
+  <div v-if="modifyequipment" class="overlay">
     <div class="backfont">
       <h3>Put the information of the product</h3>
       <br>
@@ -73,34 +95,29 @@ const load = async() => {
       <h4>Seems you don't have any product...</h4>
       <h4>Create your first by click the right top button!</h4>
     </div>
-    <div v-else>
-      <div class="productContainer">
-        <!--      for the card in the equipments     -->
-        <div v-for="product in products">
-          <p class="product" :id="product.productId">
-            <img class="img" :src="product.picPath">
-            <p>{{ product.describe }}</p>
-            <button @click="deleteProduct(product.productId)">delete</button>
-          </p>
-        </div>
+    <div v-else class="productContainer">
+      <!--      for the card in the equipments     -->
+      <div v-for="product in products">
+        <p class="product" :id="product.productId">
+          <img class="img" :src="product.picPath">
+          <p>{{ product.describe }}</p>
+          <button @click="deleteProduct(product.productId)">delete</button>
+        </p>
       </div>
     </div>
-
-    <button @click="previous_page">previous</button>
-    <text>{{ page }}</text>
-    <button @click="next_page">next</button>
-
   </div>
 </template>
 
 <style scoped>
-.backfont{
-  color:azure
+.backfont {
+  color: azure
 }
-.img{
+
+.img {
   height: 70%;
   width: 100%;
 }
+
 .overlay {
   position: absolute;
   width: 100%;

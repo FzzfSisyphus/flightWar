@@ -86,7 +86,7 @@ const router = createRouter({
             component: ProductDetailUser
         },
         {
-            path: '/Manage',
+            path: '/Manage/:userid',
             name: 'Manage',
             component: Manage
         },

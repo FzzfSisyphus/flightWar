@@ -1,6 +1,7 @@
 <script setup>
-import {ref,onMounted} from 'vue'
+import {ref, onMounted} from 'vue'
 import manageAPI from './services/manageAPI'
+import router from "@/router";
 
 let diffLVArray = ref(['', ''])
 let modifydiffLV = ref(false)
@@ -9,10 +10,12 @@ let diffLV = ref(0)
 let awardDensity = ref(0)
 let enemyDensity = ref(0)
 
+let userid = ref(router.currentRoute.value.params.userid)
+
 onMounted(() => {
   load();
 });
-const load = async() => {
+const load = async () => {
   try {
     const response = await manageAPI.getDiffLV()
     console.log(response)
@@ -31,10 +34,26 @@ const load = async() => {
   }
 }
 
+const newDiffLV = async () => {
+  let data;
+  data = {
+    status,
+    diffLV,
+    awardDensity,
+    enemyDensity
+  }
+  try {
+    const response = await manageAPI.modifyDiffLV(data)
+    console.log(response.status)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 </script>
 
 <template>
-  <div v-if="add" class="overlay">
+  <div v-if="modifydiffLV" class="overlay">
     <div class="backfont">
       <h3>Put the information of the product</h3>
       <br>
@@ -61,7 +80,7 @@ const load = async() => {
   <div>
     <h2>Manage your store!</h2>
 
-    <button @click="add=true">Add a new product</button>
+    <button @click="modifydiffLV=true">Add a new product</button>
 
     <h3>Your products:</h3>
 
@@ -90,13 +109,15 @@ const load = async() => {
 </template>
 
 <style scoped>
-.backfont{
-  color:azure
+.backfont {
+  color: azure
 }
-.img{
+
+.img {
   height: 70%;
   width: 100%;
 }
+
 .overlay {
   position: absolute;
   width: 100%;
