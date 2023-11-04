@@ -1,4 +1,4 @@
-
+import axios from 'axios'
 import { defineStore } from 'pinia'
 
 
@@ -6,22 +6,48 @@ export const productsStore = defineStore('products', {
   state: () => ({
     products: [],
       cart: [],
+      
       //define variables
   }),
   
   actions: {
     
+
+
     fetchProductsFromDB() {
       // fetch('https://dummyjson.com/products')
       //     .then(res => res.json())
       //     .then(json => {
       //       this.products = json.products;
-      //     })
+      //       console.log(this.products)
+      //     })    
+      // https://products/manage/catalog
+      // axios.get('https://dummyjson.com/products', {
+
+      // }).then(
+      //     (res) => {
+      //       console.log("????????"+res.data.products)
+      //       this.products=res.data.products//没有对象名字可以直接用
+      //       console.log("!!!!!!!!!"+ this.products)
+      //     }
+      // )
+        
+      axios.get('https://dummyjson.com/products', {
+        params: {
+          //id: 12,
+        },
+    }).then(
+        (res) => {
+          //this.products=res.data.products
+           console.log("!!!!!!!!!"+ this.products)
+           console.log("??????"+ res.data)
+        }
+    )
       this.products =[
           {
               "id": 1,
-              "title": "iPhone 9",
-              "description": "An apple mobile which is nothing like apple",
+              "itemName": "iPhone 9",
+              "describe": "An apple mobile which is nothing like apple",
               "price": 20,
               "couponID":"sdf132",
               "discountPercentage": 12.96,
@@ -40,8 +66,8 @@ export const productsStore = defineStore('products', {
           },
           {
               "id": 2,
-              "title": "iPhone X",
-              "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+              "itemName": "iPhone X",
+              "describe": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
               "price": 100,
               "couponID":"sdf132",
               "discountPercentage": 17.94,
@@ -59,8 +85,8 @@ export const productsStore = defineStore('products', {
           },
           {
             "id": 3,
-            "title": "iPhone X",
-            "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+            "itemName": "iPhone X",
+            "describe": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
             "price": 50,
             "couponID":"sdf132",
             "discountPercentage": 17.94,
@@ -80,15 +106,50 @@ export const productsStore = defineStore('products', {
     },
 
     addToCart(product) {
+      
       this.cart.push(product)
     },
-  addProduct()
+  addProductToDB()
   {
      
      let product={
       "id": this.products.length+1,
-      "title": "ADD",
+      "itemName": "ADD",
       "description": "",
+      "price": 0,
+      "discountPercentage": 0,
+      "couponID":"",
+      "rating": 0,
+      "stock": 0,
+      "brand": "",
+      "category": "",
+      "thumbnail": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/4/1.jpg",
+        "https://i.dummyjson.com/data/products/4/2.jpg",
+        "https://i.dummyjson.com/data/products/4/3.jpg",
+        "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
+      ]
+     }
+     this.products.push(product)
+      axios.post('https://dummyjson.com/products', products).then(
+    (res) => {
+        
+   
+       }
+    ) 
+
+    this.products.push(product)
+    return this.products.length
+  },
+
+  addProductToDB()
+  {
+     
+     let product={
+      "id": this.products.length+1,
+      "itemName": "ADD",
+      "describe": "",
       "price": 10,
       "discountPercentage": 0,
       "couponID":"",
@@ -103,17 +164,64 @@ export const productsStore = defineStore('products', {
         "https://i.dummyjson.com/data/products/4/3.jpg",
         "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
       ]
-  }
-  this.products.push(product)
-  return this.products.length
+     }
+     this.products.push(product)
+      axios.post('https://dummyjson.com/products', products).then(
+    (res) => {
+        
+   
+       }
+    ) 
+
+    this.products.push(product)
+    return this.products.length
+  },
+  addProduct()
+  {
+     
+     let product={
+      "id": this.products.length+1,
+      "itemName": "ADD",
+      "describe": "",
+      "price": 10,
+      "discountPercentage": 0,
+      "couponID":"",
+      "rating": 4.09,
+      "stock": 5,
+      "brand": "",
+      "category": "",
+      "thumbnail": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/4/1.jpg",
+        "https://i.dummyjson.com/data/products/4/2.jpg",
+        "https://i.dummyjson.com/data/products/4/3.jpg",
+        "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
+      ]
+     }
+    this.products.push(product)
+    return this.products.length
   },
    addFromProduct(id) {
+    
       console.log('>>>>> ID', id)
       this.products = this.products.filter((item) => item.id !== id)
     },
 
+    updateFromProductToDB(id) {
+    
+      axios.post('https://products/manage/catalog', data).then(
+        (res) => {
+            
+        }
+    )
+  
+        console.log('>>>>> ID', id)
+        this.products = this.products.filter((item) => item.id !== id)
+      },
+
     removeFromCart(id) {
       console.log('>>>>> ID', id)
+
       this.cart = this.cart.filter((item) => item.id !== id)
     },
     removeFromProduct(id) {
