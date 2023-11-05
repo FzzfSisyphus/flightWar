@@ -23,7 +23,8 @@ const load = async () => {
     coupons.value = response.data.coupon;
     credit.value = response.data.credit;
     let equipt;
-    for (equipt in response.data) {
+    for (let i = 0; i < response.data.equipts.length; i++) {
+      equipt = response.data.equipts[i]
       equipments.value.push({
         itemId: equipt.itemId,
         itemName: equipt.itemName,
@@ -60,16 +61,6 @@ function turntable() {
 <template>
   <div v-if="startroll" class="overlay">
     <RollTable :userId='userId'
-               :prizeList="[
-        { name: '手机', src: 'https://www.apple.com/newsroom/images/product/iphone/geo/Apple-iPhone-14-iPhone-14-Plus-hero-220907-geo.jpg.og.jpg?202308290218' },
-        { name: '手表', src: 'https://img1.baidu.com/it/u=2631716577,1296460670&fm=253&fmt=auto&app=120&f=JPEG' },
-        { name: '苹果', src: 'https://img2.baidu.com/it/u=2611478896,137965957&fm=253&fmt=auto&app=138&f=JPEG' },
-        { name: '棒棒糖', src: 'https://img2.baidu.com/it/u=576980037,1655121105&fm=253&fmt=auto&app=138&f=PNG' },
-        { name: '娃娃', src: 'https://img2.baidu.com/it/u=4075390137,3967712457&fm=253&fmt=auto&app=138&f=PNG' },
-        { name: '木马', src: 'https://img1.baidu.com/it/u=2434318933,2727681086&fm=253&fmt=auto&app=120&f=JPEG' },
-        { name: '德芙', src: 'https://img0.baidu.com/it/u=1378564582,2397555841&fm=253&fmt=auto&app=120&f=JPEG' },
-        { name: '玫瑰', src: 'https://img1.baidu.com/it/u=1125656938,422247900&fm=253&fmt=auto&app=120&f=JPEG' }
-        ]"
     />
     <button @click="startroll=false">close</button>
 
@@ -128,8 +119,8 @@ function turntable() {
 }
 
 .equipment {
-  width: 225px;
-  height: 225px;
+  width: 435px;
+  height: 435px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;

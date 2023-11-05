@@ -5,35 +5,25 @@ import router from "@/router";
 
 let equipments = ref(['', ''])
 let modifyequipment = ref(false)
-let status = ref('')
+let status = ref('change')
 let itemId = ref(null)
 let itemName = ref('')
 let describe = ref('')
 let price = ref(0)
 let picPath = ref('')
-let userid = ref(router.currentRoute.value.params.userid)
-let data = ref({
-  status,
-  itemId,
-  itemName,
-  describe,
-  price,
-  picPath,
-  userid
-})
-
+let userid = router.currentRoute.value.params.userid
 
 onMounted(() => {
   load();
 });
 const load = async () => {
   try {
-    const response = await manageAPI.getDiffLV()
+    const response = await manageAPI.getEquipment()
     console.log(response)
     equipments.value = []
     let p;
-    for (let i = 0; i < response.data.data.length; i++) {
-      p = response.data.data[i]
+    for (let i = 0; i < response.data.length; i++) {
+      p = response.data[i]
       equipments.value.push({
         itemId: p.itemId,
         itemName: p.itemName,
@@ -48,10 +38,20 @@ const load = async () => {
 }
 
 const newEquipment = async () => {
+  let data = ref({
+    status,
+    itemId,
+    itemName,
+    describe,
+    price,
+    picPath,
+    userid
+  })
   try {
     const response = await manageAPI.modifyEquipment(data)
     console.log(response.status)
     modifyequipment.value = false
+    status.value = 'change'
   } catch (error) {
     console.log(error)
   }
@@ -84,10 +84,6 @@ function addEquipment() {
 <template>
   <div v-if="modifyequipment" class="overlay">
     <div class="backfont">
-      <dev v-if="status != 'add'">
-        <input type="radio" v-model="status" value="change"/><label>change</label>
-        <input type="radio" v-model="status" value="delete"/><label>delete</label>
-      </dev>
       <h3>Put the information of the product</h3>
       <br>
       <p>itemName: </p>
@@ -121,8 +117,8 @@ function addEquipment() {
           <p>{{ equipment.itemName }}</p>
           <p>{{ equipment.describe }}</p>
           <p>{{ equipment.price }}</p>
-          <button @click="changeEquipment(equipments.valueOf(equipment))">change</button>
-          <button @click="deleteEquipment(equipments.itemId)">delete</button>
+          <button @click="changeEquipment(equipments.indexOf(equipment))">change</button>
+          <button @click="deleteEquipment(equipment.itemId)">delete</button>
         </p>
       </div>
     </div>
@@ -160,8 +156,8 @@ function addEquipment() {
 }
 
 .product {
-  width: 325px;
-  height: 325px;
+  width: 400px;
+  height: 450px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;

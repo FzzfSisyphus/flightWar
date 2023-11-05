@@ -2,7 +2,7 @@ import API from "./API";
 
 class manageAPI {
     static getRolltablePrize() {
-        return API().get('/manage/rolltableList')
+        return API().get('/manage/rolltable')
     }
 
     static modifyRolltablePrize(data) {
@@ -45,7 +45,9 @@ class manageAPI {
 
     static deleteEquipment(itemId) {
         return API().delete('/manage/catalog', {
-            itemId: itemId
+            params: {
+                itemId: itemId
+            }
         })
     }
 }

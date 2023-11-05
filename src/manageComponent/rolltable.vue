@@ -13,13 +13,6 @@ let weight = ref('')
 let index = ref(0)
 let userid = router.currentRoute.value.params.userid
 
-let data = ref({
-  status,
-  prizeName,
-  picPath,
-  weight
-})
-
 onMounted(() => {
   load();
 });
@@ -44,11 +37,19 @@ const load = async () => {
 }
 
 const newPrize = async () => {
+  let data = ref({
+    status,
+    prizeName,
+    picPath,
+    weight
+  })
   try {
+    console.log(data)
     const response = await manageAPI.modifyRolltablePrize(data)
     console.log(response.status)
     modifyrolltableprize.value = false
   } catch (error) {
+    console.log("error")
     console.log(error)
   }
 }
