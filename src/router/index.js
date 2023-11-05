@@ -1,13 +1,15 @@
 import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
-
 import StartPage from "@/StartPage.vue";
 import ModeChoose from "@/ModeChoose.vue";
 import WareHouse from "@/WareHouse.vue";
-
 import GameInterface from "@/Gameview/GameInterface.vue";
 import Game from "@/Game.vue";
 import GameEquipment from "@/Gameview/Equipment.vue";
-import Manage from "@/Manage.vue";
+import Catalog from "@/views/Catalog.vue";
+import ProductDetailUser from "@/views/ProductDetailUser.vue";
+
+
+
 
 const router = createRouter({
     history : createWebHashHistory(import.meta.env.BASE_URL),
@@ -18,34 +20,45 @@ const router = createRouter({
             component: StartPage
         },
         {
-            path: "/ModeChoose/:userid",
+            path: "/ModeChoose/:username",
             name:"ModeChoose",
             component: ModeChoose,
         },
         {
-            path: "/WareHouse/:userid",
+            path: "/WareHouse/:username",
             name:"WareHouse",
             component: WareHouse,
         },
         {
-            path: "/Game/:userid",
-            name: "Game",
+            path: "/Game",
+            name: Game,
             component: Game,
         },
         {
-            path: "/GameInterface/:gameinfo",
-            name: "GameInterface",
+            path: "/GameInterface",
+            name: GameInterface,
             component: GameInterface,
         },
         {
-            path:"/GameEquipment/:difflv",
-            name:"GameEquipment",
+            path:"/GameEquipment",
+            name:GameEquipment,
             component:GameEquipment
         },
+
         {
-            path: '/Manage/:userid',
-            name: 'Manage',
-            component: Manage
+            path: '/Catalog/productUser/:id',
+            name: 'ProductViewUser',
+            component: ProductDetailUser
+        },
+        {
+            path: '/Catalog/',
+            name: 'Catalog',
+            component: Catalog
+        },
+        {
+            path: '/Catalog/ProductDetailUser',
+            name: 'ProductDetailUser',
+            component: ProductDetailUser
         },
         {
             path: "/StartPage",
