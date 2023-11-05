@@ -104,8 +104,8 @@ function addPrize() {
       <div v-for="prize in rolltableprize">
         <p class="product" :id="rolltableprize.indexOf(prize)">
           <img class="img" :src="prize.picPath">
-          <p>{{ prize.prizeName }}</p>
-          <p>{{ prize.weight }}</p>
+          <p>name : {{ prize.prizeName }}</p>
+          <p>weight : {{ prize.weight }}</p>
           <button @click="modify(rolltableprize.indexOf(prize))">modify</button>
         </p>
       </div>

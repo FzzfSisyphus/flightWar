@@ -49,6 +49,7 @@ const newEquipment = async () => {
   })
   try {
     const response = await manageAPI.modifyEquipment(data)
+    console.log(data.value)
     console.log(response.status)
     modifyequipment.value = false
     status.value = 'update'
@@ -115,9 +116,9 @@ function addEquipment() {
       <div v-for="equipment in equipments">
         <p class="product" :id="equipment.itemId">
           <img class="img" :src="equipment.picPath">
-          <p>{{ equipment.itemName }}</p>
-          <p>{{ equipment.describe }}</p>
-          <p>{{ equipment.price }}</p>
+          <p>name : {{ equipment.itemName }}</p>
+          <p>describe : {{ equipment.describe }}</p>
+          <p>price : {{ equipment.price }}</p>
           <button @click="changeEquipment(equipments.indexOf(equipment))">change</button>
           <button @click="deleteEquipment(equipment.itemId)">delete</button>
         </p>

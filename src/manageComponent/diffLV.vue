@@ -5,7 +5,7 @@ import router from "@/router";
 
 let diffLVArray = ref(['', ''])
 let modifydiffLV = ref(false)
-let status = ref('')
+let status = ref('update')
 let diffLv = ref(0)
 let awardDensity = ref(0)
 let enemyDensity = ref(0)
@@ -45,6 +45,7 @@ const newDiffLV = async () => {
     const response = await manageAPI.modifyDiffLV(data)
     console.log(response.status)
     modifydiffLV.value = false
+    status.value = 'update'
   } catch (error) {
     console.log(error)
   }
@@ -59,7 +60,7 @@ function modify(id) {
 
 function addDiffLV() {
   modifydiffLV.value = true
-  status.value = 'add'
+  status.value = 'create'
 }
 
 </script>
@@ -67,8 +68,8 @@ function addDiffLV() {
 <template>
   <div v-if="modifydiffLV" class="overlay">
     <div class="backfont">
-      <dev v-if="status != 'add'">
-        <input type="radio" v-model="status" value="change"/><label>change</label>
+      <dev v-if="status != 'create'">
+        <input type="radio" v-model="status" value="update"/><label>update</label>
         <input type="radio" v-model="status" value="delete"/><label>delete</label>
       </dev>
       <h3>Put the information of the product</h3>
@@ -91,7 +92,7 @@ function addDiffLV() {
   <div>
     <h2>Manage your difficult level!</h2>
 
-    <button @click="addDiffLV=true">Add a new product</button>
+    <button @click="addDiffLV">Add a new product</button>
 
     <h3>Your levels:</h3>
     <div class="productContainer">

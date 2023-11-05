@@ -33,7 +33,7 @@ class manageAPI {
 
     static modifyEquipment(data) {
         return API().put('/manage/catalog', {
-            status: data.status,
+            status: data.value,
             itemId: data.itemId,
             itemName: data.itemName,
             describe: data.describe,
