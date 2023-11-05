@@ -1,7 +1,7 @@
 import API from "./API";
 class gameAPI{
     static getEquip(useridValue){
-        return API().get('/game/equip/'+useridValue,{
+        return API().get('/game/equip',{
             params: {
               userId: useridValue
             }

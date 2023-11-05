@@ -1,6 +1,7 @@
 <script>
   import { ref, computed, onMounted,watch } from 'vue';
   import { useRoute } from 'vue-router'
+  import router from "@/router";
   import gameAPI from "../services/gameAPI.js";
   
   import Hero from '../class/HeroClass.js'
@@ -151,7 +152,9 @@
             startTimer();
         });
 
-
+        const  jumpMainPage = () =>{
+            router.push(`/ModeChoose/${props.userid}`)
+        }
         //具体method:
         const changeShootType = () => {
             console.log('火力改变');
@@ -535,7 +538,8 @@
             resetPushBulletTimer,
             changeShootType,
             heroMove,
-            reStartGame
+            reStartGame,
+            jumpMainPage
         };
     }
     
@@ -553,7 +557,7 @@
         <EnemyBulletObj :enemyBulletList = "enemyBulletList"/> 
         <MaxFireObj :maxFireBulletList ="maxFireBulletList"/>
         <Info :hero ="hero" :score="score" :difficultLv="difficultLv" :power="power" :pause="pause" :coupon="coupon"/>
-        <CoverBackground  v-show="life <= 0" :reStartGame="reStartGame" :life="life"/>
+        <CoverBackground  v-show="life <= 0" :reStartGame="reStartGame" :life="life" :userId="userid" :jumpMainPage="jumpMainPage"/>
     </div>
 </template>
 

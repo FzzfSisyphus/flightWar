@@ -13,7 +13,8 @@
             {{ item.describe }}
           </div>
           <div class="quantity"> You have: <div class="number">{{ item.quantity }} </div></div>
-          <n-checkbox size="small" @update:checked="carryEquip(item.itemId)" label="带上装备" />
+
+          <n-checkbox v-if="item.quantity!=0"  size="small" @update:checked="carryEquip(item.itemId)" label="Take this" />
         </div>
     </n-card>
   </div>
@@ -109,7 +110,7 @@ export default{
   background: #4df719;
   align-items: center;
 }
-.linkBtn{
+.linkbtn{
   width: 80%;
   position: absolute;
   left: 40%;
