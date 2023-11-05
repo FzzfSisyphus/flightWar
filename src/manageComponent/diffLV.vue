@@ -84,7 +84,6 @@ function addDiffLV() {
       <button @click="newDiffLV">confirm</button>
       <button @click="modifydiffLV=false">close</button>
     </div>
-
   </div>
   <!--every time add/delete one product, we flash the page to get the new product list-->
 
