@@ -9,14 +9,14 @@ let verifyerrorMessage = ref("")
 let emptyerrorMessage = ref("")
 let userid = ref(0)
 
-function log() {
+const log = async () => {
   verifyerrorMessage.value = ''
   emptyerrorMessage.value = ''
-  if (Username.value == '' & Password.value == '') {
+  if (Username == '' & Password == '') {
     emptyerrorMessage.value = 'Please input the username and password'
   } else {
     try {
-      const response = accountAPI.login(Username.value, Password.value)
+      const response = await accountAPI.login(Username, Password)
       console.log(response);
       console.log("ok");
       userid.value = response.data.userId;
@@ -31,9 +31,6 @@ function log() {
       verifyerrorMessage.value = "Sorry! The username and the password don't match!";
     }
   }
-  // router.push(`/ModeChoose/${userid.value}`)
-  //http://localhost:5173/#/ModeChoose?username=Username https://jsonplaceholder.typicode.com/posts/1
-
 }
 </script>
 
@@ -43,11 +40,11 @@ function log() {
   <h4>Continue your exciting fight fight!</h4>
   <br>
   <p> Username: <input v-model="Username" placeholder="Username"></p>
-  <p> Password: <input type="password" v-model="Password" placeholder="Password"></p>
+  <p> Password: <input v-model="Password" placeholder="Password"></p>
 
   <p v-if="emptyerrorMessage" style="color: red">{{ emptyerrorMessage }}</p>
   <p v-if="verifyerrorMessage" style="color: red">{{ verifyerrorMessage }}</p>
-  <!--  <p v-else>{{ }}</p>-->
+  <!--  <p v-else>{{ type="password" }}</p>-->
 
   <button class="Signbutton" @click="log">Log in</button>
 
