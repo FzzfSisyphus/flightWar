@@ -12,15 +12,20 @@
   />
 </template>
 
+<script setup>
+const emit = defineEmits(['response'])
+
+const props = defineProps({
+  userId: Number
+});
+</script>
+
 <script>
-import rolltableAPI from '../services/warehouseAPI.js'
+import warehouseAPI from '../services/warehouseAPI.js'
+import router from "@/router";
+// let userId = router.currentRoute.value.params.userid
 
 export default {
-  props: {
-    prizeList: Array,
-    userId: Number
-  },
-
   data() {
     return {
       prizes: [],
@@ -59,21 +64,25 @@ export default {
     //   })
     //   this.prizes = prizes
     // },
-    getPrizesList() {
-      const prizes = []
+    async getPrizesList() {
+      let prizes = []
       let data;
       try {
-        data = rolltableAPI.getPrize().data()
+        console.log("get prize list")
+        let response = await warehouseAPI.getPrize()
+        data = response.data.data
+        console.log(response)
       } catch (error) {
+        console.log(response)
         console.log("error")
       }
       data.forEach((item, index) => {
         var i;
         for (i = 0; i < item.weight; i++) {
           prizes.push({
-            title: item.itemName,
+            title: item.prizeName,
             background: index % 2 ? '#f9e3bb' : '#f8d384',
-            fonts: [{text: item.itemName, top: '10%', fontSize: '20px'}],
+            fonts: [{text: item.prizeName, top: '10%', fontSize: '20px'}],
             imgs: [{src: item.picPath, width: '45%', top: '20%'}],
           })
         }
@@ -86,12 +95,15 @@ export default {
         this.$refs.LuckyWheel.stop(Math.random() * 8 >> 0)
       }, 3000)
     },
-    endCallBack(prize) {
+    async endCallBack(prize) {
       // alert(`恭喜你获得${prize.title}`)
-      console.log(prize.title, prize.index)
-      try{
-        const response = rolltableAPI.winPrize(userId)
-      }catch (error){
+      console.log(prize.title)
+      alert(`Congratulations, you win ${prize.title}`)
+      emit('response', true)
+      try {
+        const response = await warehouseAPI.winPrize(props.userId)
+        console.log(response)
+      } catch (error) {
         console.log(error)
       }
     },

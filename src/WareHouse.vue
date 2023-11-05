@@ -1,9 +1,10 @@
 <script setup>
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import RollTable from './components/RollTable.vue';
 import warehouseAPI from './services/warehouseAPI'
+import router from "@/router";
 
-let userId = ref(0)
+let userId = router.currentRoute.value.params.userid
 let equipments = ref([])
 let coupons = ref(-1)
 let credit = ref(-1)
@@ -11,29 +12,36 @@ let credits = ref(0)
 
 let startroll = ref(false)
 
-try {
-  const response = warehouseAPI.getWarehouse(userId.value)
-  coupons.value = response.data.coupons;
-  credit.value = response.data.credit;
-  let equipt;
-  for (equipt in response.data) {
-    equipments.value.push({
-      itemId: equipt.itemId,
-      itemName: equipt.itemName,
-      describe: equipt.describe,
-      quantity: equipt.quantity,
-      price: equipt.price,
-      picPath: equipt.picPath
-    });
+onMounted(() =>
+    load()
+)
+
+const load = async () => {
+  try {
+    const response = await warehouseAPI.getWarehouse(userId)
+    console.log(response)
+    coupons.value = response.data.coupon;
+    credit.value = response.data.credit;
+    let equipt;
+    for (let i = 0; i < response.data.equipts.length; i++) {
+      equipt = response.data.equipts[i]
+      equipments.value.push({
+        itemId: equipt.itemId,
+        itemName: equipt.itemName,
+        describe: equipt.describe,
+        quantity: equipt.quantity,
+        price: equipt.price,
+        picPath: equipt.picPath
+      });
+    }
+  } catch (error) {
+    console.log(error)
   }
-} catch (error) {
-  console.log(error)
 }
 
 function getRandomColor() {
   return "hsl(" + Math.random() * 360 + "), 100%, 75%";
 }
-
 
 function turntable() {
 //   about the jumping out turntable
@@ -47,22 +55,17 @@ function turntable() {
     couponWarning.value = ''
   }
 }
+
+function rolled(){
+  startroll.value = false
+  coupons.value = coupons.value - 1
+}
 </script>
 
 <template>
   <div v-if="startroll" class="overlay">
     <RollTable :userId='userId'
-               :prizeList="[
-        { name: '手机', src: 'https://www.apple.com/newsroom/images/product/iphone/geo/Apple-iPhone-14-iPhone-14-Plus-hero-220907-geo.jpg.og.jpg?202308290218' },
-        { name: '手表', src: 'https://img1.baidu.com/it/u=2631716577,1296460670&fm=253&fmt=auto&app=120&f=JPEG' },
-        { name: '苹果', src: 'https://img2.baidu.com/it/u=2611478896,137965957&fm=253&fmt=auto&app=138&f=JPEG' },
-        { name: '棒棒糖', src: 'https://img2.baidu.com/it/u=576980037,1655121105&fm=253&fmt=auto&app=138&f=PNG' },
-        { name: '娃娃', src: 'https://img2.baidu.com/it/u=4075390137,3967712457&fm=253&fmt=auto&app=138&f=PNG' },
-        { name: '木马', src: 'https://img1.baidu.com/it/u=2434318933,2727681086&fm=253&fmt=auto&app=120&f=JPEG' },
-        { name: '德芙', src: 'https://img0.baidu.com/it/u=1378564582,2397555841&fm=253&fmt=auto&app=120&f=JPEG' },
-        { name: '玫瑰', src: 'https://img1.baidu.com/it/u=1125656938,422247900&fm=253&fmt=auto&app=120&f=JPEG' }
-        ]"
-    />
+    @response="(flag) => rooled"/>
     <button @click="startroll=false">close</button>
 
   </div>
@@ -71,7 +74,7 @@ function turntable() {
     <h1>Hi! Welcome to your warehouse!</h1>
 
     <div>
-      <h3>Your credits are: {{ credits }}</h3>
+      <h3>Your credits are: {{ credit }}</h3>
       <br>
       <h3>You have {{ coupons }} coupons!</h3>
       <button @click="turntable">roll the turntable!</button>
@@ -83,7 +86,7 @@ function turntable() {
       <!--      for the card in the equipments     -->
       <div v-for="equipment in equipments">
         <p class="equipment" :id="equipment.itemId">
-          <p>picture</p>
+          <img class="epic" :src="equipment.picPath">
           <p>{{ equipment.itemName }}</p>
           <p>{{ equipment.describe }}</p>
           <p>{{ equipment.quantity }}</p>
@@ -92,13 +95,17 @@ function turntable() {
     </div>
 
     <div>
-      <router-link :to="{path: '/ModeChoose/' + $route.params.username}">back to menu</router-link>
+      <router-link :to="{path: '/ModeChoose/' + $route.params.userid}">back to menu</router-link>
     </div>
 
   </div>
 </template>
 
 <style scoped>
+.epic{
+  height: 65%;
+  width:100%
+}
 .overlay {
   position: absolute;
   width: 100%;
@@ -120,8 +127,8 @@ function turntable() {
 }
 
 .equipment {
-  width: 225px;
-  height: 225px;
+  width: 435px;
+  height: 435px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;

@@ -1,17 +1,17 @@
 import API from "./API";
 
 class accountAPI {
-    static login(userName, password) {
+    static login(username, password) {
         return API().post('/login', {
-            userName: userName,
+            userName: username,
             password: password
         })
     }
 
     static signup(userName, password) {
         return API().post('/signup', {
-            userName: userName,
-            password: password
+                userName: userName,
+                password: password
         })
     }
 }

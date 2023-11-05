@@ -2,7 +2,7 @@ import API from "./API";
 
 class manageAPI {
     static getRolltablePrize() {
-        return API().get('/manage/rolltableList')
+        return API().get('/manage/rolltable')
     }
 
     static modifyRolltablePrize(data) {
@@ -19,12 +19,7 @@ class manageAPI {
     }
 
     static modifyDiffLV(data) {
-        return API().post('/manage/diff', {
-            status: data.status,
-            diffLV: data.diffLV,
-            awardDensity: data.awardDensity,
-            enemyDensity: data.enemyDensity
-        })
+        return API().post('/manage/diff', data)
     }
 
     static getEquipment() {
@@ -45,7 +40,9 @@ class manageAPI {
 
     static deleteEquipment(itemId) {
         return API().delete('/manage/catalog', {
-            itemId: itemId
+            params: {
+                itemId: itemId
+            }
         })
     }
 }

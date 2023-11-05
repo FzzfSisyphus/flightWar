@@ -5,35 +5,25 @@ import router from "@/router";
 
 let equipments = ref(['', ''])
 let modifyequipment = ref(false)
-let status = ref('')
+let status = ref('update')
 let itemId = ref(null)
 let itemName = ref('')
 let describe = ref('')
 let price = ref(0)
 let picPath = ref('')
-let userid = ref(router.currentRoute.value.params.userid)
-let data = ref({
-  status,
-  itemId,
-  itemName,
-  describe,
-  price,
-  picPath,
-  userid
-})
-
+let userid = router.currentRoute.value.params.userid
 
 onMounted(() => {
   load();
 });
 const load = async () => {
   try {
-    const response = await manageAPI.getDiffLV()
+    const response = await manageAPI.getEquipment()
     console.log(response)
     equipments.value = []
     let p;
-    for (let i = 0; i < response.data.data.length; i++) {
-      p = response.data.data[i]
+    for (let i = 0; i < response.data.length; i++) {
+      p = response.data[i]
       equipments.value.push({
         itemId: p.itemId,
         itemName: p.itemName,
@@ -48,10 +38,20 @@ const load = async () => {
 }
 
 const newEquipment = async () => {
+  let data = ref({
+    status,
+    itemId,
+    itemName,
+    describe,
+    price,
+    picPath,
+    userid
+  })
   try {
     const response = await manageAPI.modifyEquipment(data)
     console.log(response.status)
     modifyequipment.value = false
+    status.value = 'update'
   } catch (error) {
     console.log(error)
   }
@@ -68,6 +68,7 @@ const deleteEquipment = async (id) => {
 
 function changeEquipment(id) {
   modifyequipment.value = true
+  status.value = 'update'
   itemName.value = equipments.value[id].itemName
   describe.value = equipments.value[id].describe
   price.value = equipments.value[id].price
@@ -76,7 +77,7 @@ function changeEquipment(id) {
 
 function addEquipment() {
   modifyequipment.value = true
-  status.value = 'add'
+  status.value = 'create'
 }
 
 </script>
@@ -84,10 +85,6 @@ function addEquipment() {
 <template>
   <div v-if="modifyequipment" class="overlay">
     <div class="backfont">
-      <dev v-if="status != 'add'">
-        <input type="radio" v-model="status" value="change"/><label>change</label>
-        <input type="radio" v-model="status" value="delete"/><label>delete</label>
-      </dev>
       <h3>Put the information of the product</h3>
       <br>
       <p>itemName: </p>
@@ -108,11 +105,11 @@ function addEquipment() {
   <!--every time add/delete one product, we flash the page to get the new product list-->
 
   <div>
-    <h2>Manage your store!</h2>
+    <h2>Manage your equipments!</h2>
 
     <button @click="addEquipment">Add a new product</button>
 
-    <h3>Your products:</h3>
+    <h3>Your equipments:</h3>
     <div class="productContainer">
       <!--      for the card in the equipments     -->
       <div v-for="equipment in equipments">
@@ -121,8 +118,8 @@ function addEquipment() {
           <p>{{ equipment.itemName }}</p>
           <p>{{ equipment.describe }}</p>
           <p>{{ equipment.price }}</p>
-          <button @click="changeEquipment(equipments.valueOf(equipment))">delete</button>
-          <button @click="deleteEquipment(equipments.itemId)">delete</button>
+          <button @click="changeEquipment(equipments.indexOf(equipment))">change</button>
+          <button @click="deleteEquipment(equipment.itemId)">delete</button>
         </p>
       </div>
     </div>
@@ -160,8 +157,8 @@ function addEquipment() {
 }
 
 .product {
-  width: 325px;
-  height: 325px;
+  width: 400px;
+  height: 450px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;

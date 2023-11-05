@@ -11,20 +11,14 @@ let picPath = ref('')
 let weight = ref('')
 
 let index = ref(0)
-let userid = ref(router.currentRoute.value.params.userid)
-
-let data = ref({
-  status,
-  prizeName,
-  picPath,
-  weight
-})
+let userid = router.currentRoute.value.params.userid
 
 onMounted(() => {
   load();
 });
 const load = async () => {
   try {
+    console.log("get prizes")
     const response = await manageAPI.getRolltablePrize()
     console.log(response)
     rolltableprize.value = []
@@ -43,11 +37,19 @@ const load = async () => {
 }
 
 const newPrize = async () => {
+  let data = ref({
+    status,
+    prizeName,
+    picPath,
+    weight
+  })
   try {
+    console.log(data)
     const response = await manageAPI.modifyRolltablePrize(data)
     console.log(response.status)
     modifyrolltableprize.value = false
   } catch (error) {
+    console.log("error")
     console.log(error)
   }
 }
@@ -62,7 +64,7 @@ function modify(id) {
 
 function addPrize() {
   modifyrolltableprize.value = true
-  status.value = 'add'
+  status.value = 'create'
 }
 
 </script>
@@ -71,8 +73,8 @@ function addPrize() {
   <div v-if="modifyrolltableprize" class="overlay">
     <!--  change or delete prize  -->
     <div class="backfont">
-      <dev v-if="status != 'add'">
-        <input type="radio" v-model="status" value="change"/><label>change</label>
+      <dev v-if="status != 'create'">
+        <input type="radio" v-model="status" value="update"/><label>update</label>
         <input type="radio" v-model="status" value="delete"/><label>delete</label>
       </dev>
       <h3>Put the information of the prize</h3>
@@ -92,6 +94,8 @@ function addPrize() {
   </div>
 
   <div>
+    <h2>manage the prize!</h2>
+
     <button @click="addPrize">Add a new Prize</button>
 
     <h3>Prizes Now:</h3>

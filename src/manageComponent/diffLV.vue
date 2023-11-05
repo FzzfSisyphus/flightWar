@@ -1,114 +1,62 @@
 <script setup>
 import {ref, onMounted} from 'vue'
 import manageAPI from '../services/manageAPI'
-import router from "@/router";
 
-let diffLVArray = ref(['', ''])
-let modifydiffLV = ref(false)
-let status = ref('')
-let diffLV = ref(0)
-let awardDensity = ref(0)
-let enemyDensity = ref(0)
-let data = ref({
-  status,
-  diffLV,
-  awardDensity,
-  enemyDensity
-})
 
-let userid = ref(router.currentRoute.value.params.userid)
 
-onMounted(() => {
-  load();
-});
-const load = async () => {
-  try {
-    const response = await manageAPI.getDiffLV()
-    console.log(response)
-    diffLVArray.value = []
-    let p;
-    for (let i = 0; i < response.data.data.length; i++) {
-      p = response.data.data[i]
-      diffLVArray.value.push({
-        diffLV: p.diffLV,
-        awardDensity: p.awardDensity,
-        enemyDensity: p.enemyDensity
-      })
+  let loading = ref(true)
+  const responseData = ref(null)
+  
+  
+  const loadDiff  = async() => {
+    try{
+      const response = await manageAPI.getDiffLV() 
+      responseData.value = response.data
+      console.log(responseData.value)
+      console.log("userid is ")
+      loading.value=false
+    } catch(err){
+        console.log(err)
     }
-  } catch (error) {
-    console.log(error)
   }
-}
-
-const newDiffLV = async () => {
-  try {
-    const response = await manageAPI.modifyDiffLV(data)
-    console.log(response.status)
-    modifydiffLV.value = false
-  } catch (error) {
-    console.log(error)
+  onMounted(() =>{
+    loadDiff()
+  })
+  async function confirmChange(){
+    try{
+      const response = await manageAPI.modifyDiffLV(responseData.value) 
+      console.log(response)
+    } catch(err){
+      console.log(err)
+    }
+    console.log(responseData.value)
   }
-}
-
-function modify(id) {
-  modifydiffLV.value = true
-  diffLV.value = diffLVArray.value[id].diffLV
-  awardDensity.value = diffLVArray.value[id].awardDensity
-  enemyDensity.value = diffLVArray.value[id].enemyDensity
-}
-
-function addDiffLV() {
-  modifydiffLV.value = true
-  status.value = 'add'
-}
-
 </script>
 
 <template>
-  <div v-if="modifydiffLV" class="overlay">
-    <div class="backfont">
-      <dev v-if="status != 'add'">
-        <input type="radio" v-model="status" value="change"/><label>change</label>
-        <input type="radio" v-model="status" value="delete"/><label>delete</label>
-      </dev>
-      <h3>Put the information of the product</h3>
-      <br>
-      <p>diffLV: </p>
-      <textarea v-model="diffLV"></textarea>
-      <br>
-      <p>awardDensity:</p>
-      <textarea v-model="awardDensity"></textarea>
-      <br>
-      <p>enemyDensity:</p>
-      <textarea v-model="enemyDensity"></textarea>
-      <button @click="newDiffLV">confirm</button>
-      <button @click="modifydiffLV=false">close</button>
-    </div>
-
-  </div>
-  <!--every time add/delete one product, we flash the page to get the new product list-->
-
-  <div>
-    <h2>Manage your store!</h2>
-
-    <button @click="addDiffLV=true">Add a new product</button>
-
-    <h3>Your products:</h3>
-    <div class="productContainer">
-      <!--      for the card in the equipments     -->
-      <div v-for="LV in diffLVArray">
-        <p class="product" :id="diffLVArray.indexOf(LV)">
-          <p>{{ LV.diffLV }}</p>
-          <p>{{ LV.awardDensity }}</p>
-          <p>{{ LV.enemyDensity }}</p>
-          <button @click="modify(diffLVArray.indexOf(LV))">modify</button>
-        </p>
-      </div>
-    </div>
+  <div v-if="loading"> loading information </div>
+  <div v-else>
+    <n-list hoverable clickable>
+      <n-list-item v-for="(item, index) in responseData" :key="index" >
+        <n-input-group>
+          <div class="listitem" >Difficult Level : {{responseData[index].diffLv}}</div>  
+          <div class="listitem">Enemy Density</div>
+          <n-input-number class="listitem" v-model:value="responseData[index].enemyDensity" placeholder="Enemy Density" />
+          <div class="listitem">Award Density</div>
+          <n-input-number class="listitem" v-model:value="responseData[index].awardDensity" placeholder="Award Density" />
+        </n-input-group>
+      </n-list-item>
+    </n-list>
+    <button @click="confirmChange"> save change </button>
   </div>
 </template>
 
 <style scoped>
+
+.listitem{
+  margin-right: 20px; 
+  width: '17%';
+}
 .backfont {
   color: azure
 }
@@ -139,8 +87,8 @@ function addDiffLV() {
 }
 
 .product {
-  width: 325px;
-  height: 325px;
+  width: 125px;
+  height: 125px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;
