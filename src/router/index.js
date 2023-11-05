@@ -27,7 +27,7 @@ const router = createRouter({
             component: WareHouse,
         },
         {
-            path: "/Game",
+            path: "/Game/:userid",
             name: Game,
             component: Game,
         },
