@@ -18,41 +18,47 @@
 </template> 
 
 <script setup>
-
+// http://127.0.0.1:5173/flightWar#/ModeChoose/1
 import { productsStore } from "@/stores/products";
 import { useRoute, useRouter } from "vue-router";
+//import {modeChoose} from '../ModeChoose.vue'
 import axios from 'axios';
 const store = productsStore()
 const router = useRouter()
 const route = useRoute()
-
 const selectedProduct = computed(() => {
-    console.log(Number(route.params.id))
+    console.log(Number(route.params.id-1))
     console.log("The item is ")
-    console.log(store.products[route.params.id])
+    console.log(store.products[route.params.id-1])
     //return store.products.find((item) => item.item_id === Number(route.params.id))
-    return store.products[route.params.id]
+  
+    return store.products[route.params.id-1]
 })
 
- 
-const getCredit=()=> {
-            axios.get('http://aa1f1d3f1df22476cbf3887045f4b00a-595466472.ap-southeast-1.elb.amazonaws.com/catalog/user?userId=2', {
- 
-            }).then(
+//const modeChoice=modeChoose()
+const userid=router.currentRoute.value.params.userid
+console.log("User ID is ......")
+console.log(userid)
+//console.log(userId)
+const getCredit=(userID)=> {
+            axios.get('http://aa1f1d3f1df22476cbf3887045f4b00a-595466472.ap-southeast-1.elb.amazonaws.com/catalog/user', 
+            {params:{userId:userid}},).then(
                 (res) => {
-                    console.log("Credit")
-                    console.log(res.data.credit)
+                    console.log("Credit/////////////////")
+                    console.log(res.data)
+                    console.log("Credit[[[[[[[[[[[[[[]]]]]]]]]]]]]]")
                     // //let credit=res.data.id
                     // let credit = 0
                     // if (credit < selectedProduct.price)
                     //     alert("You do not have enough credit")
                     let credit=res.data.credit
-                    let price=store.products[route.params.id].price
+                    let price=store.products[route.params.id-1].price
+                    let userID= res.data.userId
                     console.log(credit)
                     console.log(price)
                     if(credit>price)
                     {
-                        addToCartDB(2,store.products[route.params.id].itemId)
+                        addToCartDB(userID, store.products[route.params.id-1].itemId)
                     }
                     else
                     alert("You don't have enough money")
@@ -63,11 +69,10 @@ const getCredit=()=> {
 
         }
 
-
 //用selectedproduct.id调用
 const addToCartDB = (userID,id) => {
     console.log("Price is")
-    console.log(store.products[route.params.id].price)
+    console.log(store.products[route.params.id-1].price)
 
         axios({
             method: 'post',//请求方法
@@ -82,12 +87,10 @@ const addToCartDB = (userID,id) => {
           
         })
         alert("Purchase successful!")
-       // store.addToCart()
-       // router.push({ name: 'WareHouse' })
+     
     
  
 }
-
 
 </script>
 
