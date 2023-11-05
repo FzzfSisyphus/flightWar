@@ -1,15 +1,17 @@
 import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
+
 import StartPage from "@/StartPage.vue";
 import ModeChoose from "@/ModeChoose.vue";
 import WareHouse from "@/WareHouse.vue";
+
 import GameInterface from "@/Gameview/GameInterface.vue";
 import Game from "@/Game.vue";
 import GameEquipment from "@/Gameview/Equipment.vue";
+
 import Catalog from "@/views/Catalog.vue";
 import ProductDetailUser from "@/views/ProductDetailUser.vue";
 
-
-
+import Manage from "@/Manage.vue";
 
 const router = createRouter({
     history : createWebHashHistory(import.meta.env.BASE_URL),
@@ -20,38 +22,37 @@ const router = createRouter({
             component: StartPage
         },
         {
-            path: "/ModeChoose/:username",
+            path: "/ModeChoose/:userid",
             name:"ModeChoose",
             component: ModeChoose,
         },
         {
-            path: "/WareHouse/:username",
+            path: "/WareHouse/:userid",
             name:"WareHouse",
             component: WareHouse,
         },
         {
-            path: "/Game",
-            name: Game,
+            path: "/Game/:userid",
+            name: "Game",
             component: Game,
         },
         {
-            path: "/GameInterface",
-            name: GameInterface,
+            path: "/GameInterface/:gameinfo",
+            name: "GameInterface",
             component: GameInterface,
         },
         {
-            path:"/GameEquipment",
-            name:GameEquipment,
+            path:"/GameEquipment/:difflv",
+            name:"GameEquipment",
             component:GameEquipment
         },
-
         {
-            path: '/Catalog/productUser/:id',
+            path: '/Catalog/:userid/productUser/:id',
             name: 'ProductViewUser',
             component: ProductDetailUser
         },
         {
-            path: '/Catalog/',
+            path: '/Catalog/:userid',
             name: 'Catalog',
             component: Catalog
         },
@@ -59,6 +60,11 @@ const router = createRouter({
             path: '/Catalog/ProductDetailUser',
             name: 'ProductDetailUser',
             component: ProductDetailUser
+        },
+        {
+            path: '/Manage/:userid',
+            name: 'Manage',
+            component: Manage
         },
         {
             path: "/StartPage",
