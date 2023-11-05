@@ -8,9 +8,6 @@ import GameEquipment from "@/Gameview/Equipment.vue";
 import Catalog from "@/views/Catalog.vue";
 import ProductDetailUser from "@/views/ProductDetailUser.vue";
 
-
-
-
 const router = createRouter({
     history : createWebHashHistory(import.meta.env.BASE_URL),
     routes:[
@@ -46,19 +43,14 @@ const router = createRouter({
         },
 
         {
-            path: '/Catalog/productUser/:userid',
+            path: '/Catalog/productUser/:userid/:itemid',
             name: 'ProductViewUser',
-            component: ProductDetailUser
+            component: ProductDetailUser,
         },
         {
-            path: '/Catalog/',
+            path: '/Catalog/:userid',
             name: 'Catalog',
             component: Catalog
-        },
-        {
-            path: '/Catalog/ProductDetailUser',
-            name: 'ProductDetailUser',
-            component: ProductDetailUser
         },
         {
             path: "/StartPage",

@@ -1,4 +1,3 @@
-
 <template>
   <div class="products-list">
     <v-text-field clearable label="Label" prepend-icon="$vuetify"></v-text-field>
@@ -12,42 +11,45 @@
         <product-item
             :product-data="product"
             @item-clicked="goToProductPage"
-            @click="goToProductPage(product.itemId)"
+            @click="goToProductPage( userid, product.itemId)"
         />
       </v-col>
-    </v-row>           
-    </div>
+    </v-row>
+  </div>
 </template>
 
 <script>
-  import { defineComponent } from "vue";
-  import ProductItem from "@/components/ProductItem.vue";
-  export default defineComponent({
-    name: 'Catalog',
-    components: {
-      ProductItem
-    }
-  })
+import {defineComponent} from "vue";
+import ProductItem from "@/components/ProductItem.vue";
+
+export default defineComponent({
+  name: 'Catalog',
+  components: {
+    ProductItem
+  }
+})
 </script>
 
 <script setup>
-  import { onMounted, ref } from "vue";
-  import { productsStore } from "@/stores/products";
-  import { useRouter } from "vue-router";
+import {onMounted, ref} from "vue";
+import {productsStore} from "@/stores/products";
+import {useRouter} from "vue-router";
 
-  const store = productsStore()
-  const router = useRouter()
+const store = productsStore()
+const router = useRouter()
 
-  const search = ref('')
+const search = ref('')
 
-  const goToProductPage = (id) => {
-    router.push({ name: 'ProductViewUser', params: { id } })
-  }
+let userid = ref(router.currentRoute.value.params.userid)
+
+const goToProductPage = (userid, itemid) => {
+  router.push({name: 'ProductViewUser', params: {userid: userid, itemid: itemid}})
+}
 
 
-  onMounted(async () => {
-    await store.fetchProductsFromDB()
-  })
+onMounted(async () => {
+  await store.fetchProductsFromDB()
+})
 </script>
 
 <style scoped>
