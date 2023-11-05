@@ -24,7 +24,7 @@ import manageAPI from '../services/manageAPI'
   })
   async function confirmChange(){
     try{
-      const response = await manageAPI.getDiffLV(responseData.value) 
+      const response = await manageAPI.modifyDiffLV(responseData.value) 
       console.log(response)
     } catch(err){
       console.log(err)
@@ -41,7 +41,7 @@ import manageAPI from '../services/manageAPI'
         <n-input-group>
           <div class="listitem" >Difficult Level : {{responseData[index].diffLv}}</div>  
           <div class="listitem">Enemy Density</div>
-          <n-input-number class="listitem" v-model:value="responseData[index].awardDensity" placeholder="Enemy Density" />
+          <n-input-number class="listitem" v-model:value="responseData[index].enemyDensity" placeholder="Enemy Density" />
           <div class="listitem">Award Density</div>
           <n-input-number class="listitem" v-model:value="responseData[index].awardDensity" placeholder="Award Density" />
         </n-input-group>

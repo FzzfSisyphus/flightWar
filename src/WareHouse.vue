@@ -86,7 +86,7 @@ function rolled(){
       <!--      for the card in the equipments     -->
       <div v-for="equipment in equipments">
         <p class="equipment" :id="equipment.itemId">
-          <img :src="equipment.picPath">
+          <img class="epic" :src="equipment.picPath">
           <p>{{ equipment.itemName }}</p>
           <p>{{ equipment.describe }}</p>
           <p>{{ equipment.quantity }}</p>
@@ -102,6 +102,10 @@ function rolled(){
 </template>
 
 <style scoped>
+.epic{
+  height: 65%;
+  width:100%
+}
 .overlay {
   position: absolute;
   width: 100%;
