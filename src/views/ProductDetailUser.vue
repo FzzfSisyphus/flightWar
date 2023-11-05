@@ -27,11 +27,11 @@ const router = useRouter()
 const route = useRoute()
 
 const selectedProduct = computed(() => {
-    console.log(Number(route.params.id))
+    console.log(Number(route.params.userid))
     console.log("The item is ")
-    console.log(store.products[route.params.id])
+    console.log(store.products[route.params.userid])
     //return store.products.find((item) => item.item_id === Number(route.params.id))
-    return store.products[route.params.id]
+    return store.products[route.params.userid]
 })
 
  
@@ -52,7 +52,7 @@ const getCredit=()=> {
                     console.log(price)
                     if(credit>price)
                     {
-                        addToCartDB(2,store.products[route.params.id].itemId)
+                        addToCartDB(2,store.products[route.params.userid].itemId)
                     }
                     else
                     alert("You don't have enough money")

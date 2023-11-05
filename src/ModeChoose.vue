@@ -9,11 +9,11 @@ let userid = ref(router.currentRoute.value.params.userid)
 let catalog_equipments = ref([])
 
 function goGame() {
-  router.push(`/Game/${userid.value}`)//how to transfer the id is next to solve
+  router.push(`/Game/${userid.value}`)
 }
 
 function goCatalog() {
-  router.push(`/Catalog/${userid.value}`)//how to transfer the id is next to solve
+  router.push(`/Catalog/${userid.value}`)
 }
 
 function goWarehouse() {

@@ -20,12 +20,12 @@ const router = createRouter({
             component: StartPage
         },
         {
-            path: "/ModeChoose/:username",
+            path: "/ModeChoose/:userid",
             name:"ModeChoose",
             component: ModeChoose,
         },
         {
-            path: "/WareHouse/:username",
+            path: "/WareHouse/:userid",
             name:"WareHouse",
             component: WareHouse,
         },
@@ -46,7 +46,7 @@ const router = createRouter({
         },
 
         {
-            path: '/Catalog/productUser/:id',
+            path: '/Catalog/productUser/:userid',
             name: 'ProductViewUser',
             component: ProductDetailUser
         },
