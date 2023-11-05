@@ -7,14 +7,6 @@ import WareHouse from "@/WareHouse.vue";
 import GameInterface from "@/Gameview/GameInterface.vue";
 import Game from "@/Game.vue";
 import GameEquipment from "@/Gameview/Equipment.vue";
-
-import Catalog from "@/views/Catalog.vue";
-import ProductDetail from "@/views/ProductDetail.vue";
-import ProductDetailUser from "@/views/ProductDetailUser.vue";
-import Cart from "@/views/Cart.vue";
-import CatalogAdmin from "@/views/CatalogAdmin.vue";
-import Edit from "@/views/Edit.vue";
-
 import Manage from "@/Manage.vue";
 
 const router = createRouter({
@@ -49,41 +41,6 @@ const router = createRouter({
             path:"/GameEquipment/:difflv",
             name:"GameEquipment",
             component:GameEquipment
-        },
-        {
-            path: '/CatalogAdmin',
-            name: 'CatalogAdmin',
-            component: CatalogAdmin
-        },
-        {
-            path: '/Catalog/product/:id',
-            name: 'ProductView',
-            component: ProductDetail
-        },
-        {
-            path: '/Catalog/productUser/:id',
-            name: 'ProductViewUser',
-            component: ProductDetailUser
-        },
-        {
-            path: '/Catalog/cart',
-            name: 'CartView',
-            component: Cart
-        },
-        {
-            path: '/Catalog/',
-            name: 'Catalog',
-            component: Catalog
-        },
-        {
-            path: '/Catalog/Edit',
-            name: 'EditView',
-            component: Edit
-        },
-        {
-            path: '/Catalog/ProductDetailUser',
-            name: 'ProductDetailUser',
-            component: ProductDetailUser
         },
         {
             path: '/Manage/:userid',

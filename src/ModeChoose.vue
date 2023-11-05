@@ -8,11 +8,9 @@ let userid = ref(router.currentRoute.value.params.userid)
 //for catalog
 let catalog_equipments = ref([])
 
-
 function goGame() {
   router.push(`/Game/${userid.value}`)//how to transfer the id is next to solve
 }
-
 
 function goCatalog() {
   router.push(`/Catalog/${userid.value}`)//how to transfer the id is next to solve
@@ -30,8 +28,8 @@ function goStart() {
 
 <template>
   <dev class="base">
-    <h1 class="title">Welcome come Back!</h1>
-    <h3 class="titleChoose">Choose your battle!</h3>
+    <h1 class="title">Welcome Come !</h1>
+<!--    <h3 class="title">Choose your battle!</h3>-->
 
     <el-button-group class="choose">
       <button class="choosebutton" @click="goGame">start game</button>
@@ -48,7 +46,6 @@ function goStart() {
 
 .base {
   display: flex;
-  flex-flow: column;
   justify-content: center;
   text-align: center;
 }

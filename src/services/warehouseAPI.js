@@ -1,5 +1,4 @@
 import API from "./API";
-import accountAPI from "@/services/accountAPI";
 
 class warehouseAPI{
     static getWarehouse(userId){
@@ -9,9 +8,7 @@ class warehouseAPI{
             }
         })
     }
-}
 
-class rolltableAPI {
     static getPrize() {
         return API().get("/warehouse/rolltable")
     }
