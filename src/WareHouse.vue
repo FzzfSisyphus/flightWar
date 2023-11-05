@@ -43,7 +43,6 @@ function getRandomColor() {
   return "hsl(" + Math.random() * 360 + "), 100%, 75%";
 }
 
-
 function turntable() {
 //   about the jumping out turntable
   if (coupons.value == 0) {
@@ -56,12 +55,17 @@ function turntable() {
     couponWarning.value = ''
   }
 }
+
+function rolled(){
+  startroll.value = false
+  coupons.value = coupons.value - 1
+}
 </script>
 
 <template>
   <div v-if="startroll" class="overlay">
     <RollTable :userId='userId'
-    />
+    @response="(flag) => rooled"/>
     <button @click="startroll=false">close</button>
 
   </div>

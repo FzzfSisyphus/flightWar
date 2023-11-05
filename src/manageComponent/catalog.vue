@@ -5,7 +5,7 @@ import router from "@/router";
 
 let equipments = ref(['', ''])
 let modifyequipment = ref(false)
-let status = ref('change')
+let status = ref('update')
 let itemId = ref(null)
 let itemName = ref('')
 let describe = ref('')
@@ -51,7 +51,7 @@ const newEquipment = async () => {
     const response = await manageAPI.modifyEquipment(data)
     console.log(response.status)
     modifyequipment.value = false
-    status.value = 'change'
+    status.value = 'update'
   } catch (error) {
     console.log(error)
   }
@@ -68,6 +68,7 @@ const deleteEquipment = async (id) => {
 
 function changeEquipment(id) {
   modifyequipment.value = true
+  status.value = 'update'
   itemName.value = equipments.value[id].itemName
   describe.value = equipments.value[id].describe
   price.value = equipments.value[id].price
@@ -76,7 +77,7 @@ function changeEquipment(id) {
 
 function addEquipment() {
   modifyequipment.value = true
-  status.value = 'add'
+  status.value = 'create'
 }
 
 </script>

@@ -6,17 +6,17 @@ import router from "@/router";
 let diffLVArray = ref(['', ''])
 let modifydiffLV = ref(false)
 let status = ref('')
-let diffLV = ref(0)
+let diffLv = ref(0)
 let awardDensity = ref(0)
 let enemyDensity = ref(0)
 let data = ref({
   status,
-  diffLV,
+  diffLv,
   awardDensity,
   enemyDensity
 })
 
-let userid = ref(router.currentRoute.value.params.userid)
+let userid = router.currentRoute.value.params.userid
 
 onMounted(() => {
   load();
@@ -27,10 +27,10 @@ const load = async () => {
     console.log(response)
     diffLVArray.value = []
     let p;
-    for (let i = 0; i < response.data.data.length; i++) {
-      p = response.data.data[i]
+    for (let i = 0; i < response.data.length; i++) {
+      p = response.data[i]
       diffLVArray.value.push({
-        diffLV: p.diffLV,
+        diffLv: p.diffLv,
         awardDensity: p.awardDensity,
         enemyDensity: p.enemyDensity
       })
@@ -52,7 +52,7 @@ const newDiffLV = async () => {
 
 function modify(id) {
   modifydiffLV.value = true
-  diffLV.value = diffLVArray.value[id].diffLV
+  diffLv.value = diffLVArray.value[id].diffLv
   awardDensity.value = diffLVArray.value[id].awardDensity
   enemyDensity.value = diffLVArray.value[id].enemyDensity
 }
@@ -74,7 +74,7 @@ function addDiffLV() {
       <h3>Put the information of the product</h3>
       <br>
       <p>diffLV: </p>
-      <textarea v-model="diffLV"></textarea>
+      <textarea v-model="diffLv"></textarea>
       <br>
       <p>awardDensity:</p>
       <textarea v-model="awardDensity"></textarea>
@@ -98,9 +98,9 @@ function addDiffLV() {
       <!--      for the card in the equipments     -->
       <div v-for="LV in diffLVArray">
         <p class="product" :id="diffLVArray.indexOf(LV)">
-          <p>{{ LV.diffLV }}</p>
-          <p>{{ LV.awardDensity }}</p>
-          <p>{{ LV.enemyDensity }}</p>
+          <p>diffLv : {{ LV.diffLv }}</p>
+          <p>awardDensity : {{ LV.awardDensity }}</p>
+          <p>enemyDensity : {{ LV.enemyDensity }}</p>
           <button @click="modify(diffLVArray.indexOf(LV))">modify</button>
         </p>
       </div>
@@ -139,8 +139,8 @@ function addDiffLV() {
 }
 
 .product {
-  width: 325px;
-  height: 325px;
+  width: 125px;
+  height: 125px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;

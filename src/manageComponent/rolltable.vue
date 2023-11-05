@@ -64,7 +64,7 @@ function modify(id) {
 
 function addPrize() {
   modifyrolltableprize.value = true
-  status.value = 'add'
+  status.value = 'create'
 }
 
 </script>
@@ -73,8 +73,8 @@ function addPrize() {
   <div v-if="modifyrolltableprize" class="overlay">
     <!--  change or delete prize  -->
     <div class="backfont">
-      <dev v-if="status != 'add'">
-        <input type="radio" v-model="status" value="change"/><label>change</label>
+      <dev v-if="status != 'create'">
+        <input type="radio" v-model="status" value="update"/><label>update</label>
         <input type="radio" v-model="status" value="delete"/><label>delete</label>
       </dev>
       <h3>Put the information of the prize</h3>
