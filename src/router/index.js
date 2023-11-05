@@ -11,7 +11,7 @@ import GameEquipment from "@/Gameview/Equipment.vue";
 import Catalog from "@/views/Catalog.vue";
 import ProductDetailUser from "@/views/ProductDetailUser.vue";
 
-import Manage from "@/Manage.vue";
+//import Manage from "@/Manage.vue";
 
 const router = createRouter({
     history : createWebHashHistory(import.meta.env.BASE_URL),
@@ -61,11 +61,11 @@ const router = createRouter({
             name: 'ProductDetailUser',
             component: ProductDetailUser
         },
-        {
-            path: '/Manage/:userid',
-            name: 'Manage',
-            component: Manage
-        },
+        // {
+        //     path: '/Manage/:userid',
+        //     name: 'Manage',
+        //     component: Manage
+        // },
         {
             path: "/StartPage",
             redirect:"/"
