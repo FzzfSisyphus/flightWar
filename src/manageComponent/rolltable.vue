@@ -71,7 +71,7 @@ function addPrize() {
   <div v-if="modifyrolltableprize" class="overlay">
     <!--  change or delete prize  -->
     <div class="backfont">
-      <dev v-if="status == 'add'">
+      <dev v-if="status != 'add'">
         <input type="radio" v-model="status" value="change"/><label>change</label>
         <input type="radio" v-model="status" value="delete"/><label>delete</label>
       </dev>

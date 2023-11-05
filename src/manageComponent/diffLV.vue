@@ -67,7 +67,7 @@ function addDiffLV() {
 <template>
   <div v-if="modifydiffLV" class="overlay">
     <div class="backfont">
-      <dev v-if="status == 'add'">
+      <dev v-if="status != 'add'">
         <input type="radio" v-model="status" value="change"/><label>change</label>
         <input type="radio" v-model="status" value="delete"/><label>delete</label>
       </dev>
