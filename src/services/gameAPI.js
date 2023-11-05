@@ -1,13 +1,15 @@
 import API from "./API";
 class gameAPI{
     static getEquip(useridValue){
-        return API().get('/game/equip',{ 
-            params:{userId: useridValue }          
+        return API().get('/game/equip/'+useridValue,{
+            params: {
+              userId: useridValue
+            }
           })
     }
 
     static postEquip(userId,equipList){
-        return API().post('/game/equip',
+        return API().post('/game/equip/',
         {
             userId: userId,
             itemId: equipList
