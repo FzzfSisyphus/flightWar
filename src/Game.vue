@@ -28,7 +28,7 @@
         <div class="car-button">
           <router-link class="linkbtn" 
             :to="{ path:'/GameEquipment/:difflv', 
-            query: { difflv: JSON.stringify([userid,item.diffLV,item.awardDensity,item.enemyDensity]) }}"
+            query: { difflv: JSON.stringify([userid,item.diffLv,item.awardDensity,item.enemyDensity]) }}"
           >GO!</router-link>
         </div>
       </n-carousel-item>      
@@ -54,9 +54,11 @@ export default{
     
     const loadDiff  = async() => {
       try{
-        const response = await gameAPI.getDiff()
+        const response = await gameAPI.getDiff(this.$route.params.userid)
         responseData.value = response.data
         console.log(responseData.value)
+        console.log("userid is ")
+        console.log(this.$route.params.userid)
       } catch(err){
         console.log(err)
       } finally{
@@ -65,6 +67,7 @@ export default{
     }  
 
     onMounted(() => {
+      console.log("here we go")
       loadDiff();
     });
     

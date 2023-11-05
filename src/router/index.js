@@ -36,17 +36,17 @@ const router = createRouter({
         },
         {
             path: "/Game/:userid",
-            name: Game,
+            name: "Game",
             component: Game,
         },
         {
             path: "/GameInterface/:gameinfo",
-            name: GameInterface,
+            name: "GameInterface",
             component: GameInterface,
         },
         {
             path:"/GameEquipment/:difflv",
-            name:GameEquipment,
+            name:"GameEquipment",
             component:GameEquipment
         },
         {

@@ -6,8 +6,6 @@ class gameAPI{
           })
     }
 
-   
-
     static postEquip(userId,equipList){
         return API().post('/game/equip',
         {
@@ -24,22 +22,12 @@ class gameAPI{
         })
     }
 
-    static  getDiff(){
-        return API().get('/game/diff')
+    static  getDiff(userId){
+        return API().get('/game/diff',{ 
+            params:{userId: userId }          
+        })
     }
 
-    static createPost(data){
-        return API('https://jsonplaceholder.typicode.com')
-        .post('/posts',data)
-    }
 }
 export default gameAPI;
-//     axios.post('',
-    //     JSON.stringify({
-    //       title:'foo',
-    //       body:'bar',
-    //       userId:1,
-    //     })) .then(response =>{
-    //       console.log(response)
-    //   })
 

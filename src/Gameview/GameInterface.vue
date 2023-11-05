@@ -77,22 +77,14 @@
         let doubleScore = 0
         let bulletLv = 0
         
-        if(gameinfo.length > 4 ){
-            for (let i = 4; i <= 6; i++) {
-                if(i >= gameinfo.length) break
-                else{
-                    if(gameinfo[i] == '1'){
-                        maxFireReady = 1
-                    }
-                    if(gameinfo[i] == '2'){
-                        doubleScore += 1
-                    }
-                    if(gameinfo[i] == '3'){
-                        bulletLv = 1
-                    }
-                }                
-            }
+        for (let i = 4; i < gameinfo.length; i++) {  
+            let value = parseInt(gameinfo[i],10);
+            if(value==1){ bulletLv = 1}
+            if(value==2){ maxFireReady = 1}
+            if(value==3){ doubleScore += 1}
+
         }
+        
         if(maxFireReady == 1){ power.value = 100}
         
         const postCredits = async() =>{
@@ -106,15 +98,15 @@
         
         const difficultLv = computed(() => {
             if (score.value > 1600) {
-            return 5;
+            return difflv+5;
             } else if (score.value <= 1600 && score.value > 800) {
-            return 4;
+            return difflv+4;
             } else if (score.value <= 800 && score.value > 300) {
-            return 3;
+            return difflv+3;
             } else if (score.value <= 300 && score.value > 100) {
-            return 2;
+            return difflv+2;
             } else {
-            return 1;
+            return difflv;
             }
         });
         const shootSpeed = computed(() => hero.shootSpeed || 1);
@@ -298,7 +290,6 @@
             
             clearInterval(airplaneTimer.value);
             clearInterval(awardTimer.value);
-            console.log("here we go ")
             clearInterval(enemyBulletTimer.value);
         };
 
@@ -343,7 +334,7 @@
                             }
                         }
                     }
-                }, 1000 / difficultLv.value)
+                }, 1500 / difficultLv.value)
 
             //敌方飞机飞行的timer
             airplaneTimer.value = setInterval(() => {
@@ -387,7 +378,7 @@
 
                     }
                 })
-            }, 20*enemyDensity)
+            }, 15*enemyDensity)
 
             // hero射击子弹导入的timer
             pushBulletTimer.value = setInterval(() => {
@@ -510,7 +501,7 @@
                     awardList.value.push(new Award(40, 40, x, 0, 4))
                 }
 
-            }, 3000/awardDensity)
+            }, 15000/awardDensity)
 
             //奖励飞行的timer
             awardTimer.value = setInterval(() => {
@@ -575,7 +566,7 @@
         bottom: 0;
         z-index: 1000;
         background: transparent;
-        background-image: url('./background/bg1.png');
+        background-image: url('./background/bg1.png'); 
         background-size: cover; /* Stretch the image to cover the entire background */
         background-repeat: no-repeat;
     }
