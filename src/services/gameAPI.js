@@ -1,7 +1,7 @@
 import API from "./API";
 class gameAPI{
     static getEquip(useridValue){
-        return API().get('/game/equip/'+useridValue,{
+        return API().get('/game/equip/',{
             params: {
               userId: useridValue
             }
@@ -25,21 +25,8 @@ class gameAPI{
     }
 
     static  getDiff(){
-        return API('http://localhost:9090/game/diff').get()
+        return API('/game/diff').get()
     }
 
-    static createPost(data){
-        return API('https://jsonplaceholder.typicode.com')
-        .post('/posts',data)
-    }
 }
 export default gameAPI;
-//     axios.post('',
-    //     JSON.stringify({
-    //       title:'foo',
-    //       body:'bar',
-    //       userId:1,
-    //     })) .then(response =>{
-    //       console.log(response)
-    //   })
-

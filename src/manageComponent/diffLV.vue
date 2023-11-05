@@ -89,11 +89,11 @@ function addDiffLV() {
   <!--every time add/delete one product, we flash the page to get the new product list-->
 
   <div>
-    <h2>Manage your store!</h2>
+    <h2>Manage your difficult level!</h2>
 
     <button @click="addDiffLV=true">Add a new product</button>
 
-    <h3>Your products:</h3>
+    <h3>Your levels:</h3>
     <div class="productContainer">
       <!--      for the card in the equipments     -->
       <div v-for="LV in diffLVArray">

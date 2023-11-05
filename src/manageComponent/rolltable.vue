@@ -11,7 +11,7 @@ let picPath = ref('')
 let weight = ref('')
 
 let index = ref(0)
-let userid = ref(router.currentRoute.value.params.userid)
+let userid = router.currentRoute.value.params.userid
 
 let data = ref({
   status,
@@ -25,6 +25,7 @@ onMounted(() => {
 });
 const load = async () => {
   try {
+    console.log("get prizes")
     const response = await manageAPI.getRolltablePrize()
     console.log(response)
     rolltableprize.value = []
@@ -92,6 +93,8 @@ function addPrize() {
   </div>
 
   <div>
+    <h2>manage the prize!</h2>
+
     <button @click="addPrize">Add a new Prize</button>
 
     <h3>Prizes Now:</h3>

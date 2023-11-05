@@ -108,11 +108,11 @@ function addEquipment() {
   <!--every time add/delete one product, we flash the page to get the new product list-->
 
   <div>
-    <h2>Manage your store!</h2>
+    <h2>Manage your equipments!</h2>
 
     <button @click="addEquipment">Add a new product</button>
 
-    <h3>Your products:</h3>
+    <h3>Your equipments:</h3>
     <div class="productContainer">
       <!--      for the card in the equipments     -->
       <div v-for="equipment in equipments">
@@ -121,7 +121,7 @@ function addEquipment() {
           <p>{{ equipment.itemName }}</p>
           <p>{{ equipment.describe }}</p>
           <p>{{ equipment.price }}</p>
-          <button @click="changeEquipment(equipments.valueOf(equipment))">delete</button>
+          <button @click="changeEquipment(equipments.valueOf(equipment))">change</button>
           <button @click="deleteEquipment(equipments.itemId)">delete</button>
         </p>
       </div>

@@ -16,15 +16,17 @@ const log = async () => {
     emptyerrorMessage.value = 'Please input the username and password'
   } else {
     try {
-      const response = await accountAPI.login(Username, Password)
+      const response = await accountAPI.login(Username.value, Password.value)
       console.log(response);
       console.log("ok");
       userid.value = response.data.userId;
-      if (response.data.roleType) {
+      if (response.data.roleType == 1) {
         router.push(`/Manage/${userid.value}`);
       } else {
         router.push(`/ModeChoose/${userid.value}`);
       }
+      console.log("no jump")
+      console.log(response.data.roleType)
     } catch (error) {
       console.log(error);
       console.log("error");

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import rolltableAPI from '../services/warehouseAPI.js'
+import warehouseAPI from '../services/warehouseAPI.js'
 
 export default {
   props: {
@@ -59,12 +59,16 @@ export default {
     //   })
     //   this.prizes = prizes
     // },
-    getPrizesList() {
-      const prizes = []
+    async getPrizesList() {
+      let prizes = []
       let data;
       try {
-        data = rolltableAPI.getPrize().data()
+        console.log("get prize list")
+        let response = await warehouseAPI.getPrize()
+        data = response.data.data
+        console.log(response)
       } catch (error) {
+        console.log(response)
         console.log("error")
       }
       data.forEach((item, index) => {
@@ -90,7 +94,8 @@ export default {
       // alert(`恭喜你获得${prize.title}`)
       console.log(prize.title, prize.index)
       try{
-        const response = rolltableAPI.winPrize(userId)
+        const response = warehouseAPI.winPrize(userId)
+        console.log(response)
       }catch (error){
         console.log(error)
       }

@@ -21,7 +21,7 @@ function changechoise(mychooose){
       <button class="choosebutton" v-on:click="changechoise('catalog')">catalog</button>
     </button-group>
 
-    <sub>
+    <sub class="sub">
       <Rolltable  v-if="choose == 'rolltable'"/>
       <DiffLVff  v-if="choose == 'diffLV'"/>
       <Catalog v-if="choose == 'catalog'"/>
@@ -37,15 +37,14 @@ function changechoise(mychooose){
   text-align: center;
 }
 
-
 .choose {
   position: absolute;
-  top: 32%;
+  top: 15%;
 }
 
 .choosebutton {
   height: 60px;
-  width: 400px;
+  width: 200px;
   line-height: 36px;
   font-weight: bold;
   font-size: 40px;
@@ -54,5 +53,10 @@ function changechoise(mychooose){
   border: 1px solid transparent;
 //border: 1px solid #164bde; padding: 0 10px;
   margin: 2px;
+}
+
+.sub {
+  position: absolute;
+  top: 25%;
 }
 </style>

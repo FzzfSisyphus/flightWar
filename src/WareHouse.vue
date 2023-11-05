@@ -1,9 +1,10 @@
 <script setup>
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import RollTable from './components/RollTable.vue';
 import warehouseAPI from './services/warehouseAPI'
+import router from "@/router";
 
-let userId = ref(0)
+let userId = router.currentRoute.value.params.userid
 let equipments = ref([])
 let coupons = ref(-1)
 let credit = ref(-1)
@@ -11,23 +12,30 @@ let credits = ref(0)
 
 let startroll = ref(false)
 
-try {
-  const response = warehouseAPI.getWarehouse(userId.value)
-  coupons.value = response.data.coupons;
-  credit.value = response.data.credit;
-  let equipt;
-  for (equipt in response.data) {
-    equipments.value.push({
-      itemId: equipt.itemId,
-      itemName: equipt.itemName,
-      describe: equipt.describe,
-      quantity: equipt.quantity,
-      price: equipt.price,
-      picPath: equipt.picPath
-    });
+onMounted(() =>
+    load()
+)
+
+const load = async () => {
+  try {
+    const response = await warehouseAPI.getWarehouse(userId)
+    console.log(response)
+    coupons.value = response.data.coupon;
+    credit.value = response.data.credit;
+    let equipt;
+    for (equipt in response.data) {
+      equipments.value.push({
+        itemId: equipt.itemId,
+        itemName: equipt.itemName,
+        describe: equipt.describe,
+        quantity: equipt.quantity,
+        price: equipt.price,
+        picPath: equipt.picPath
+      });
+    }
+  } catch (error) {
+    console.log(error)
   }
-} catch (error) {
-  console.log(error)
 }
 
 function getRandomColor() {
@@ -71,7 +79,7 @@ function turntable() {
     <h1>Hi! Welcome to your warehouse!</h1>
 
     <div>
-      <h3>Your credits are: {{ credits }}</h3>
+      <h3>Your credits are: {{ credit }}</h3>
       <br>
       <h3>You have {{ coupons }} coupons!</h3>
       <button @click="turntable">roll the turntable!</button>
@@ -83,7 +91,7 @@ function turntable() {
       <!--      for the card in the equipments     -->
       <div v-for="equipment in equipments">
         <p class="equipment" :id="equipment.itemId">
-          <p>picture</p>
+          <img :src="equipment.picPath">
           <p>{{ equipment.itemName }}</p>
           <p>{{ equipment.describe }}</p>
           <p>{{ equipment.quantity }}</p>
@@ -92,7 +100,7 @@ function turntable() {
     </div>
 
     <div>
-      <router-link :to="{path: '/ModeChoose/' + $route.params.username}">back to menu</router-link>
+      <router-link :to="{path: '/ModeChoose/' + $route.params.userid}">back to menu</router-link>
     </div>
 
   </div>
