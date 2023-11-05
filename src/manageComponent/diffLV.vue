@@ -2,11 +2,11 @@
 import {ref, onMounted} from 'vue'
 import manageAPI from '../services/manageAPI'
 
-import router from "@/router";
 
 
-  const loading = ref(true)
+  let loading = ref(true)
   const responseData = ref(null)
+  
   
   const loadDiff  = async() => {
     try{
@@ -14,92 +14,39 @@ import router from "@/router";
       responseData.value = response.data
       console.log(responseData.value)
       console.log("userid is ")
+      loading.value=false
     } catch(err){
         console.log(err)
-    } finally{
-        loading.value=false
     }
   }
-  onMounted(
+  onMounted(() =>{
     loadDiff()
-  )
-
-
-// let userid = ref(router.currentRoute.value.params.userid)
-
-// onMounted(() => {
-//   load();
-// });
-// const load = async () => {
-//   try {
-//     const response = await manageAPI.getDiffLV()
-//     console.log(response)
-//     diffLVArray.value = []
-//     let p;
-//     for (let i = 0; i < response.data.data.length; i++) {
-//       p = response.data.data[i]
-//       diffLVArray.value.push({
-//         diffLV: p.diffLV,
-//         awardDensity: p.awardDensity,
-//         enemyDensity: p.enemyDensity
-//       })
-//     }
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-// const newDiffLV = async () => {
-//   try {
-//     const response = await manageAPI.modifyDiffLV(data)
-//     console.log(response.status)
-//     modifydiffLV.value = false
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-// function modify(id) {
-//   modifydiffLV.value = true
-//   diffLV.value = diffLVArray.value[id].diffLV
-//   awardDensity.value = diffLVArray.value[id].awardDensity
-//   enemyDensity.value = diffLVArray.value[id].enemyDensity
-// }
-
-// function addDiffLV() {
-//   modifydiffLV.value = true
-//   status.value = 'add'
-// }
-
+  })
+  async function confirmChange(){
+    try{
+      const response = await manageAPI.getDiffLV(responseData.value) 
+      console.log(response)
+    } catch(err){
+      console.log(err)
+    }
+    console.log(responseData.value)
+  }
 </script>
 
 <template>
   <div v-if="loading"> loading information </div>
   <div v-else>
-    <div> {{responseData}}</div>
     <n-list hoverable clickable>
       <n-list-item v-for="(item, index) in responseData" :key="index" >
         <n-input-group>
-          <div class="listitem" >{{responseData[index].diffLv}}</div>
-  
-          <div class="listitem">Enemy{{ responseData[index].awardDensity }}</div>
+          <div class="listitem" >Difficult Level : {{responseData[index].diffLv}}</div>  
+          <div class="listitem">Enemy Density</div>
           <n-input-number class="listitem" v-model:value="responseData[index].awardDensity" placeholder="Enemy Density" />
           <div class="listitem">Award Density</div>
           <n-input-number class="listitem" v-model:value="responseData[index].awardDensity" placeholder="Award Density" />
         </n-input-group>
       </n-list-item>
     </n-list>
-    <!-- <n-list hoverable clickable v-for="(item, index) in responseData" :key="index" >
-      <n-list-item >
-        <n-dynamic-input v-model:value="responseData" :on-create="onCreate">
-          <n-input-number
-            v-model:value="responseData[index].awardDensity"
-            style="margin-right: 12px; width: 160px"
-          />
-        </n-dynamic-input>
-      </n-list-item>
-    </n-list> -->
-
     <button @click="confirmChange"> save change </button>
   </div>
 </template>
@@ -107,6 +54,7 @@ import router from "@/router";
 <style scoped>
 
 .listitem{
+  margin-right: 20px; 
   width: '17%';
 }
 .backfont {
@@ -139,8 +87,8 @@ import router from "@/router";
 }
 
 .product {
-  width: 325px;
-  height: 325px;
+  width: 125px;
+  height: 125px;
   background-color: #98d3fc;
   padding: 10px;
   border-radius: 15px;
