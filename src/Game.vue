@@ -19,12 +19,12 @@
         <div class="difflv text">
           difficult level : {{item.diffLv}} 
         </div>
-        <div class="award text">
+        <!-- <div class="award text">
           award density : {{item.awardDensity}}
         </div>
         <div class="enemy text">
           enemy density :{{ item.enemyDensity }}
-        </div>
+        </div> -->
         <div class="car-button">
           <router-link class="linkbtn" 
             :to="{ path:'/GameEquipment/:difflv', 
