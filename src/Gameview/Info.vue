@@ -31,12 +31,12 @@ export default {
                 <div >HotFire Level: {{hero.shootLv}}</div>
                 <div>Bullet Power:Lv{{hero.shootSpeed}}</div>
                 <div>Bullet Speed:Lv{{hero.shootPower}}</div>
-                <div>射击模式：{{hero.shootType===1?'集':hero.shootType===2?'散':'乱'}}</div>
+                <div>Shot Mode {{hero.shootType===1?'Focus':hero.shootType===2?'scattering':'random'}}</div>
             </div>
 
             <div class="score-info">
-                <div>得分：{{score}}</div>
-                <div>难度：{{difficultLv}}</div>
+                <div>Score:{{score}}</div>
+                <div>difficult level{{difficultLv}}</div>
                 <div>coupon: {{ coupon }}</div>
             </div>
 
@@ -50,10 +50,10 @@ export default {
             </div>
 
             <div class="oprate-info">
-                <div style="font-size:12px;">S键开始<br />P键暂停<br />鼠标左键切换弹道<br />空格键绝杀</div>
+                <div style="font-size:20px;">S to Continue<br />P to pause <br />Left click change shoot mode<br />Space key MaxFire</div>
                 <div class="container" :class="{conActive:pause}">
                     <div class="inner" :class="{innActive:pause}">
-                        {{pause?'停':''}}
+                        {{pause?'Stop':''}}
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@ export default {
         background: #ddd;
         padding: 8px;
         border-radius: 8px;
-        font-size:18px;
+        font-size:22px;
     }
 
     .power-info {

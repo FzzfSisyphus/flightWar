@@ -15,6 +15,7 @@ import Cart from "@/views/Cart.vue";
 import CatalogAdmin from "@/views/CatalogAdmin.vue";
 import Edit from "@/views/Edit.vue";
 
+import Manage from "@/Manage.vue";
 
 const router = createRouter({
     history : createWebHashHistory(import.meta.env.BASE_URL),
@@ -36,17 +37,17 @@ const router = createRouter({
         },
         {
             path: "/Game/:userid",
-            name: Game,
+            name: "Game",
             component: Game,
         },
         {
             path: "/GameInterface/:gameinfo",
-            name: GameInterface,
+            name: "GameInterface",
             component: GameInterface,
         },
         {
             path:"/GameEquipment/:difflv",
-            name:GameEquipment,
+            name:"GameEquipment",
             component:GameEquipment
         },
         {
@@ -83,6 +84,11 @@ const router = createRouter({
             path: '/Catalog/ProductDetailUser',
             name: 'ProductDetailUser',
             component: ProductDetailUser
+        },
+        {
+            path: '/Manage/:userid',
+            name: 'Manage',
+            component: Manage
         },
         {
             path: "/StartPage",
