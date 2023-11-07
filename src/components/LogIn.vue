@@ -42,7 +42,7 @@ const log = async () => {
   <h4>Continue your exciting fight fight!</h4>
   <br>
   <p> Username: <input v-model="Username" placeholder="Username"></p>
-  <p> Password: <input v-model="Password" placeholder="Password"></p>
+  <p> Password: <input v-model="Password" type="password" placeholder="Password"></p>
 
   <p v-if="emptyerrorMessage" style="color: red">{{ emptyerrorMessage }}</p>
   <p v-if="verifyerrorMessage" style="color: red">{{ verifyerrorMessage }}</p>
