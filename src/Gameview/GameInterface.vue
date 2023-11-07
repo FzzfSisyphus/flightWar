@@ -153,7 +153,7 @@
         });
 
         const  jumpMainPage = () =>{
-            router.push(`/ModeChoose/${props.userid}`)
+            router.push(`/ModeChoose/${userid}`)
         }
         //具体method:
         const changeShootType = () => {

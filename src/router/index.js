@@ -7,6 +7,7 @@ import Game from "@/Game.vue";
 import GameEquipment from "@/Gameview/Equipment.vue";
 import Catalog from "@/views/Catalog.vue";
 import ProductDetailUser from "@/views/ProductDetailUser.vue";
+import Manage from "@/Manage.vue";
 
 const router = createRouter({
     history : createWebHashHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,11 @@ const router = createRouter({
             path: '/Catalog/:userid',
             name: 'Catalog',
             component: Catalog
+        },
+        {
+            path: '/Manage/:userid',
+            name: 'Manage',
+            component: Manage
         },
         {
             path: "/StartPage",
