@@ -32,12 +32,12 @@ const router = createRouter({
             component: Game,
         },
         {
-            path: "/GameInterface",
+            path: "/GameInterface/:gameinfo",
             name: GameInterface,
             component: GameInterface,
         },
         {
-            path:"/GameEquipment",
+            path:"/GameEquipment/:difflv",
             name:GameEquipment,
             component:GameEquipment
         },
