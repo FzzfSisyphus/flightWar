@@ -9,6 +9,7 @@ let equipments = ref([])
 let coupons = ref(-1)
 let credit = ref(-1)
 let credits = ref(0)
+let couponWarning = ref('')
 
 let startroll = ref(false)
 
@@ -51,7 +52,7 @@ function turntable() {
     return
   } else {
     startroll.value = true
-    couponsNumber.value = couponsNumber.value - 1
+    coupons.value = coupons.value - 1
     couponWarning.value = ''
   }
 }

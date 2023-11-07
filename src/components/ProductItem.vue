@@ -4,13 +4,13 @@
         class="product"
     >
       <v-img
-          :src="productData.thumbnail"
+          :src="productData.picPath"
           height="200px"
           cover
       />
 
       <v-card-title>
-        {{ productData.brand }}
+        {{ productData.itemName }}
       </v-card-title>
 
       <v-card-subtitle>
@@ -18,7 +18,7 @@
       </v-card-subtitle>
 
       <v-card-text>
-        {{ productData.description }}
+        {{ productData.describe }}
       </v-card-text>
 
       <v-card-actions>
