@@ -43,7 +43,7 @@ const search = ref('')
 let userid = ref(router.currentRoute.value.params.userid)
 
 const goToProductPage = (userid, itemid) => {
-  router.push({name: 'ProductViewUser', params: {userid: userid, itemid: itemid}})
+  router.push({name: 'ProductViewUser', params: {userid: userid.value, itemid: itemid}})
 }
 
 
